@@ -57,7 +57,7 @@ $$R = \sqrt[4]{\frac{P_s G^2 \lambda^2 \sigma}{(4\pi)^3 P_e}}$$<br>
 $P_s$ can be found on the HB100 datasheet on DigiKey, 13 mW<br>
 $G$ was experimentally measured to 1.5dBi in an academic study[1] trying to increase the scope of the HB100 chip, including methods such as range amplification. <br>
 $\lambda$ of the system is directly correlated to the speed of the propagating EM wave, $c$, and its frequency, $f$, at 10,525GHz,<br>
-$$\frac{c}{f} = \frac{3*10^8}{10.525*10^9} = 0.0285m$$<br>
+$$\frac{c}{f} = \frac{3*10^8}{10.525*10^9} = 0.0285m$$  <br>
 $\sigma$ must be approximated by selecting a target of a given size. Due to the description of Radar Cross Section derived in 1.1, when an EM wave hits a larger target, such as a car, a smaller amount of energy dissipates into random radiation, making it easier for the radar to "see". For the sake of approximation, the target will be assumed as a human, giving the range a worst-case figure. The RCS of a human can be estimated by considering the surface area of the front of an average person, which we will call $1m^2$<br>
 $P_e$ can be found using a resource found very early in the Doppl-E project[2]. From the page containing the Radar Range Equation, we can find that,<br>
 $$P_{Emin} = k T B_w \frac{S}{N_{min}} L_{ges}$$<br>
@@ -76,7 +76,35 @@ Comparing the range to the manufacturer's description, the HB100 effective range
 Now the radar range equation demonstrates how delicate RF systems are, and how easily seemingly small differences in delicate values, such as system loss, can lead to inaccurate and hyperidealized results, such as $R_{maxTheoretical}$. Moving forward in the project, the effective range will be assumed at 15m for a human-sized target, scaling up for larger targets such as cars or semis. This assumption will be further tested in Week 14, as the system is stress-tested with real life targets.
 
 ## 2. Doppler  Frequency Analysis
-🚧In progress - Frequency analysis will be conducted shortly🚧
+### 2.1 Derivation
+The Doppler Effect is defined using frequencies as,<br>
+$$f_s = f_o\cdot(\frac{v \pm v_o}{v \pm v_s})$$ (7)<br>
+Where:<br>
+$f_s$ - Shifted frequency<br>
+$f_o$ - Original Frequency<br>
+$v$ - Propagation speed of the wave<br>
+$v_o$ - Speed of the wave receiver(with respect to the source)<br>
+$v_s$ - Speed of the wave source(with respect to the source)<br>
+Additionally, it should be noted that the plus-minuses in the Doppler Effect equation are reciprocal. Meaning if the numerator is $v+v_o$, then the denominator must be $v-v_s$, and vice versa.<br>
+Now for an electromagnetic wave with respect to an antenna aperture, we can fill in some of these values. Generally for precision, a radar is not moving, so $v_s$ can be assumed to be 0. Additionally, EM waves propogate at the speed of light, $c$. Therefore, the equation simplifies to <br>
+$$f_s = f_o\cdot(\frac{c \pm v_o}{c})$$ (8)<br>
+The mixer inside of the HB100 operates by taking the received signal, $f_{rx}$, and subtracting it from the transmitted signal, $f_{tx}$. This operation allows the creation of the intermediate frequency, $f_{int}$<br>
+$$f_{int} = f_{rx} - f_{tx}$$ (9)<br>
+From the definition of a radar, $f_{rx}$ can be rewritten as a doppler shift identity, as it is a reflection of the original transmission wave. In the following equation. $v$ refers to the velocity of the target, which Doppl-E is intended to detect.<br>
+$$f_{int} = f_{tx}\cdot\frac{c + v}{c} - f_{tx}$$<br>
+Which can be simply rewritten into<br>
+$$f_{int} = f_{tx}[\frac{c + v}{c} - 1]$$<br>
+In which the speed of light fraction can be further simplified into<br>
+$$f_{int} = f_{tx}[1 + \frac{v}{c} - 1]$$<br>
+Which once again, can be simplified to<br>
+$$f_{int} = f_{tx}(\frac{v}{c})$$<br>
+Recalling the frequency relationship of EM waves, $f = \frac{c}{v}$, which can be arranged to $\frac{f}{c} = \frac{1}{\lambda}$. Using this principle, the equation can be simplified to<br>
+$$f_{int} = \frac{c}{\lambda}\cdot\frac{v}{c}$$<br>
+Equalling,<br>
+$$f_{int} = \frac{v}{\lambda}$$<br>
+Now this relationship only describes the Doppler shift on the outbound path. When the wave reflects off of the target, it experiences a second Doppler shift. To properly describe this two Doppler shift relationship as seen on a radar system, the entire relationship must be multiplied by 2.<br>
+$$f_{int} = \frac{2v}{\lambda}$$ (10)<br>
+
 ## 3. Gain Stage Design
 🚧In progress - Gain stage has been designed, yet to be transcribed🚧
 ## 4. Low-Pass Filter Design
