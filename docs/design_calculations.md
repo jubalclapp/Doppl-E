@@ -75,7 +75,7 @@ $L_{ges}$ accounts for all error in the reception of the signal, including any i
 Comparing the range to the manufacturer's description, the HB100 effective range is listed at "capable of picking up a human walking 1.28kmh at 15 meters"[3], which is certainly a significantly smaller range than calculated by the "best case" radar range equation.<br>
 Now the radar range equation demonstrates how delicate RF systems are, and how easily seemingly small differences in delicate values, such as system loss, can lead to inaccurate and hyperidealized results, such as $R_{maxTheoretical}$. Moving forward in the project, the effective range will be assumed at 15m for a human-sized target, scaling up for larger targets such as cars or semis. This assumption will be further tested in Week 14, as the system is stress-tested with real life targets.
 
-## 2. Doppler  Frequency Analysis
+## 2. Doppler Frequency Analysis
 ### 2.1 Derivation
 The Doppler Effect is defined using frequencies as,<br>
 $$f_s = f_o\cdot(\frac{v \pm v_o}{v \pm v_s})$$ (7)<br>
@@ -104,6 +104,24 @@ Equalling,<br>
 $$f_{int} = \frac{v}{\lambda}$$<br>
 Now this relationship only describes the Doppler shift on the outbound path. When the wave reflects off of the target, it experiences a second Doppler shift. To properly describe this two Doppler shift relationship as seen on a radar system, the entire relationship must be multiplied by 2.<br>
 $$f_{int} = \frac{2v}{\lambda}$$ (10)<br>
+
+#### 2.2 Application to Doppl-E
+As derived in [Section 1.2](#12-application-to-doppl-e), the HB100 operates at a wavelength of $\lambda = 0.0285m$. While designing Doppl-E, I decided to select the maximum velocity detectable at around 29m/s(65mph). The inception of Doppl-E included its capabilities to detect a high-speed vehicle. Nothing like an airplane thousands of meters away, rather, trucks and cars driving by a stationary measuring point on a highway. This upper bound gives a realistic use case for Doppl-E, as it could be used to detect passing vehicle velocity. <br>
+This table briefly outlines different moving objects and their rough velocities.<br>
+| Target | Speed (km/h) | Speed (m/s) | $f_{int}$ (Hz) |
+| ------ | :---: | :---: | :---: |
+| Walking human | 5 | 1.4 | 98 |
+| Jogging human | 15 | 4.2 | 295 |
+| Cycling | 30 | 8.3 | 582 |
+| Slow moving car | 50 | 13.9 | 975 |
+| Car on Highway | 100 | 27.8 | 1951 |
+| Highway max speed | 105 | 29.2 | 2050 |  
+<br>
+As shown in the table, a high estimate for the speed of a car moving on a highway is about 105km/h, or 65mph. To find the corresponding intermediate frequency, we can use Equation 10 found in [Section 2.1](#21-derivation).<br>
+$$f_{int} = \frac{2 \cdot 29}{0.0285}$$<br>
+$$f_{int} = 2035 \text{ Hz}$$<br>
+This frequency is the maximum intermediate frequency Doppl-E will accept. Setting a maximum frequency allows Doppl-E to accept speeds up to a very realistic maximum, all while rejecting out-of-band noise that would otherwise complicate the signal processing pipeline downstream. This value of $f_{int} = 2035$ Hz is the primary design requirement of the Low Pass Filter in section 4, as it is the direct requirement for the maximum frequency that must be allowed to pass through the filter.<br>
+
 
 ## 3. Gain Stage Design
 🚧In progress - Gain stage has been designed, yet to be transcribed🚧
