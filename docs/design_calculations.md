@@ -117,7 +117,7 @@ This table briefly outlines different moving objects and their rough velocities.
 | Car on Highway | 100 | 27.8 | 1951 |
 | Highway max speed | 105 | 29.2 | 2050 |  
 <br>
-As shown in the table, a high estimate for the speed of a car moving on a highway is about 105km/h, or 65mph. To find the corresponding intermediate frequency, we can use Equation 10 found in [Section 2.1](#21-derivation).<br>
+As shown in the table, a high estimate for the speed of a car moving on a highway is about 105km/h, or 65mph. To find the corresponding intermediate frequency, we can use Equation 10 found in [Section 2.1](#21-derivation).
 $$f_{int} = \frac{2 \cdot 29}{0.0285}$$
 $$f_{int} = 2035 \text{ Hz}$$
 This frequency is the maximum intermediate frequency Doppl-E will accept. Setting a maximum frequency allows Doppl-E to accept speeds up to a very realistic maximum, all while rejecting out-of-band noise that would otherwise complicate the signal processing pipeline downstream. This value of $f_{int} = 2035$ Hz is the primary design requirement of the Low Pass Filter in section 4, as it is the direct requirement for the maximum frequency that must be allowed to pass through the filter.<br>
