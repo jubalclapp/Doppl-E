@@ -15,9 +15,9 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - DSP pipeline: FFT-based Doppler processing
 - Real-time velocity display
 ## Results
-🚧 In progress - Physical Prototype construction has not begun
+🚧 In progress - Breadboard prototype complete, PCB fabrication in progress, pending ADC adapter for live signal capture
 ## Design Calculations
-🚧 In Progress - see [/docs](/docs/)
+🚧 In Progress - Actively being socumented in [/docs](/docs/)
 ## Build Log
 🚧 In Progress - Physical Prototype construction has not begun
 ## Author
