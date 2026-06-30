@@ -17,8 +17,8 @@ After I finished my initial scouting into different RF systems, I landed on rada
 ## Results
 🚧 In progress - Breadboard prototype complete, PCB fabrication in progress, pending ADC adapter for live signal capture
 ## Design Calculations
-🚧 In Progress - Actively being socumented in [/docs](/docs/)
+🚧 In Progress - Actively being documented in [/docs](/docs/)
 ## Build Log
-🚧 In Progress - Physical Prototype construction has not begun
+🚧 In Progress - Breadboard prototype complete, PCB fabrication in progress, pending ADC adapter for live signal capture
 ## Author
 Jubal Clapp - 3rd Year Electrical Engineering @ Queen's Univerisity
