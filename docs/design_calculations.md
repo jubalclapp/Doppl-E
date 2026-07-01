@@ -122,10 +122,25 @@ As shown in the table, a high estimate for the speed of a car moving on a highwa
 $$f_{int} = \frac{2 \cdot 29}{0.0285}$$
 
 $$f_{int} = 2035 \text{ Hz}$$
+
 This frequency is the maximum intermediate frequency Doppl-E will accept. Setting a maximum frequency allows Doppl-E to accept speeds up to a very realistic maximum, all while rejecting out-of-band noise that would otherwise complicate the signal processing pipeline downstream. This value of $f_{int} = 2035$ Hz is the primary design requirement of the Low Pass Filter in section 4, as it is the direct requirement for the maximum frequency that must be allowed to pass through the filter.<br>
 
-
 ## 3. Gain Stage Design
+### 3.1 Derivation
+The HB100 unit outputs an IF signal ranging from 0 to 5 mV, meaning the IF signal is microscopic compared to the voltage range the Python script needs to interpret velocity figures. To work around this complication, a gain-stage amplifier needs to be designed and implemented.<br>
+The ADC functions as an aux-to-USB port, and expects a rough voltage range of 100-500mV, meaning the ADC will expect a significant amplification from raw HB100 IF output. To find the gain required, we can divide the Target by the Source.<br>
+$$Gain = \frac{V_{target}}{V_{source}}$$<br>
+Now, we must ensure not to overamplify, which can create noise in the ADC. Now interpreting the high and low voltages values of each range, it's noted that a $V_{source}$ highest value should correspond with the $V_{target}$ highest value. This means to find our gain, we don't need to find the worst or best case required gain, but the gain required to match the extrema. The derivation follows:<br>
+$$Gain = \frac{V_{TargetHigh}}{V_{SourceHigh}} = \frac{0.5}{0.005} = 100$$<br>
+It is possible to execute such a gain stage through one very large amplification, but for both stability and noise-reduction as factors in the output of Doppl-E, it is optimal to split the gain stage into multiple stages, in our case, 2.<br>
+In each of the gain stages utilized in Doppl-E, there is a non-inverting op-amp connected to a pair of feedback resistors to calibrate proper gain. The non-inverting op-amp equation follows:<br>
+$$G = 1 + \frac{R_2}{R_1}$$<br>
+Spreading this across two stages, the equation evolves into<br>
+$$G_{total} = G_1 \cdot G_2$$
+$$G_{total} = (1 + \frac{R_2}{R_1})(1 + \frac{R_4}{R_3})$$
+Since both stages are designed to be equivalent, it can be assumed that $R2 = R4$, $R_1 = R_3$, simplifying the equation further into. <br>
+$$G_{total} = (1 + \frac{R_2}{R_1})^2$$
+
 🚧In progress - Gain stage has been designed, yet to be transcribed🚧
 ## 4. Low-Pass Filter Design
 🚧In progress - Low-Pass Filter has been designed, yet to be transcribed🚧
