@@ -159,7 +159,15 @@ While the required gain derived in Section 3.1 was 100x, selecting a simpler res
 Now the last finishing touch is to decouple the op-amps. To do this, a pair of  capacitors are placed in parallel with the power supply pins of each op-amp (5v -> pin 8, pin 4 -> GND). These capacitors smooth out any potential voltage spikes that could damage the op-amps. For part selection, size isn't particularly relevant, so selecting a relatively large capacitor at a standard size is ideal. I selected 100nF capacitors for decoupling.
 
 ## 4. Low-Pass Filter Design
-🚧In progress - Low-Pass Filter has been designed, yet to be transcribed🚧
+### 4.1 Derivation
+In any signal transmission line, there is the risk of accidental signal noise joining the line from a multitude of different causes(radio waves, bluetooth, etc). Even small traces of these signals can potentially confuse the Python FFT script, and cause it to find inaccurate readings of frequency, and therefore velocity. Now the good news is almost all of these noise sources are very high frequency, meaning they can easily be filtered out by a Low-Pass Filter.<br>
+A low-pass filter acts just like the childhood game of limbo. The cutoff frequency is like the bar, allowing any frequency below it to pass freely. Any frequency above, regardless of signal strength, gets filtered out. There are many designs for Low-Pass filters, such as multiple-order quick response low-pass filters like Butterworths. In our instance, a simple RC low-pass filter is ideal.<br>
+An RC LPF is made of a single resistor and a single capacitor. The use of these two passive components means the filter uses no additional power, as well as being very small, cheap, and easy to build. The only advantage of using a more complicated filter topology is a steeper roll-off above cutoff frequency, which is unnecessary given Doppl-E's signal range.<br>
+The cutoff frequency relationship follows as, <br>
+$$ f_c = \frac{1}{2\pi RC}$$
+To rearrange in terms of capacitance, <br>
+$$C = \frac{1}{2\pi \cdot f_c \cdot R}$$
+
 ## 5. Power
 🚧In progress - Power budget has not been assesed🚧
 ## 6. Notch Filter
