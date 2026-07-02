@@ -126,8 +126,8 @@ $$f_{int} = 2035 \text{ Hz}$$
 This frequency is the maximum intermediate frequency Doppl-E will accept. Setting a maximum frequency allows Doppl-E to accept speeds up to a very realistic maximum, all while rejecting out-of-band noise that would otherwise complicate the signal processing pipeline downstream. This value of $f_{int} = 2035$ Hz is the primary design requirement of the Low Pass Filter in section 4, as it is the direct requirement for the maximum frequency that must be allowed to pass through the filter.<br>
 
 ## 3. Gain Stage Design
-### 3.1 Derivation
-The HB100 unit outputs an IF signal ranging from 0 to 5 mV, meaning the IF signal is microscopic compared to the voltage range the Python script needs to interpret velocity figures. To work around this complication, a gain-stage amplifier needs to be designed and implemented.<br>
+### 3.1 Derivation 
+The HB100 unit outputs an IF signal ranging from 0.2 to 5 mV, meaning the IF signal is microscopic compared to the voltage range the Python script needs to interpret velocity figures. To work around this complication, a gain-stage amplifier needs to be designed and implemented.<br>
 The ADC functions as an aux-to-USB port, and expects a rough voltage range of 100-500mV, meaning the ADC will expect a significant amplification from raw HB100 IF output. To find the gain required, we can divide the Target by the Source.<br>
 $$Gain = \frac{V_{target}}{V_{source}}$$<br>
 Now, we must ensure not to overamplify, which can create noise in the ADC. Now interpreting the high and low voltages values of each range, it's noted that a $V_{source}$ highest value should correspond with the $V_{target}$ highest value. This means to find our gain, we don't need to find the worst or best case required gain, but the gain required to match the extrema. The derivation follows:<br>
@@ -138,10 +138,26 @@ $$G = 1 + \frac{R_2}{R_1}$$<br>
 Spreading this across two stages, the equation evolves into<br>
 $$G_{total} = G_1 \cdot G_2$$
 $$G_{total} = (1 + \frac{R_2}{R_1})(1 + \frac{R_4}{R_3})$$
-Since both stages are designed to be equivalent, it can be assumed that $R2 = R4$, $R_1 = R_3$, simplifying the equation further into. <br>
+Since both stages are designed to be equivalent, it can be assumed that $R_2 = R_4$, $R_1 = R_3$, simplifying the equation further into. <br>
 $$G_{total} = (1 + \frac{R_2}{R_1})^2$$
 
-🚧In progress - Gain stage has been designed, yet to be transcribed🚧
+### 3.2 Applied to Doppl-E
+As discussed in [Section 3.1](#31-derivation), the HB100 datasheet lists the expected IF output between 0.2-5 mV. This outputted signal is very weak and noisy, requiring amplification prior to filtering. Additionally discussed in [Section 3.1](#31-derivation), the ADC expects an outputted signal strength generally between 100-500mV. We also derived the required gain, which lands at 100x amplification. <br>
+Now from a practical perspective, the two-stage amplifier circuit is made of two non-inverting amplifiers, with each stages gain described as<br>
+$$G = 1 + \frac{R_2}{R_1}$$ 
+and the overall gain, <br>
+$$G_{total} = (1 + \frac{R_2}{R_1})^2$$
+We need to find two resistance values such that $G_{total} \approx 100$ To simplify the amplifier, we can set $R_2 = 10R_1$. <br>
+$$G_{total} = (1 + 10)^2$$
+$$G_{total} = 121$$
+Now that the relationship between $R_1$ and $R_2$ is known, we can select a simple pair of strong, standard resistors. In this case, I selected $10\text{k}\Omega$ and $100\text{k}\Omega$<br>
+Op-amp selection is vital to creating a proper gain stage. I selected the MCP6002 I/P. This model features very low noise and rail to rail output. This allows the op-amp to amplify with very little risk of saturation or noise addition. <br>
+Substituting the resistance values into the total gain equation, we get,<br>
+$$Gain_{total} = (1 + \frac{100\text{k}}{10\text{k}})^2$$
+$$Gain_{total} = 121$$
+While the required gain derived in Section 3.1 was 100x, selecting a simpler resistor ratio of $R_2 = 10R_1$ will increase the gain 21% up to 121x. This increase causes no meaningful change to the signal reception through the ADC, allowing downstream operations to flow properly.<br>
+Now the last finishing touch is to decouple the op-amps. To do this, a pair of  capacitors are placed in parallel with the power supply pins of each op-amp (5v -> pin 8, pin 4 -> GND). These capacitors smooth out any potential voltage spikes that could damage the op-amps. For part selection, size isn't particularly relevant, so selecting a relatively large capacitor at a standard size is ideal. I selected 100nF capacitors for decoupling.
+
 ## 4. Low-Pass Filter Design
 🚧In progress - Low-Pass Filter has been designed, yet to be transcribed🚧
 ## 5. Power
