@@ -105,7 +105,7 @@ $$f_{int} = \frac{v}{\lambda}$$<br>
 Now this relationship only describes the Doppler shift on the outbound path. When the wave reflects off of the target, it experiences a second Doppler shift. To properly describe this two Doppler shift relationship as seen on a radar system, the entire relationship must be multiplied by 2.<br>
 $$f_{int} = \frac{2v}{\lambda}$$ (10)<br>
 
-#### 2.2 Application to Doppl-E
+### 2.2 Application to Doppl-E
 As derived in [Section 1.2](#12-application-to-doppl-e), the HB100 operates at a wavelength of $\lambda = 0.0285m$. While designing Doppl-E, I decided to select the maximum velocity detectable at around 29m/s(65mph). The inception of Doppl-E included its capabilities to detect a high-speed vehicle. Nothing like an airplane thousands of meters away, rather, trucks and cars driving by a stationary measuring point on a highway. This upper bound gives a realistic use case for Doppl-E, as it could be used to detect passing vehicle velocity. <br>
 This table briefly outlines different moving objects and their rough velocities.<br>
 | Target | Speed (km/h) | Speed (m/s) | $f_{int}$ (Hz) |
@@ -163,11 +163,20 @@ Now the last finishing touch is to decouple the op-amps. To do this, a pair of  
 In any signal transmission line, there is the risk of accidental signal noise joining the line from a multitude of different causes(radio waves, bluetooth, etc). Even small traces of these signals can potentially confuse the Python FFT script, and cause it to find inaccurate readings of frequency, and therefore velocity. Now the good news is almost all of these noise sources are very high frequency, meaning they can easily be filtered out by a Low-Pass Filter.<br>
 A low-pass filter acts just like the childhood game of limbo. The cutoff frequency is like the bar, allowing any frequency below it to pass freely. Any frequency above, regardless of signal strength, gets filtered out. There are many designs for Low-Pass filters, such as multiple-order quick response low-pass filters like Butterworths. In our instance, a simple RC low-pass filter is ideal.<br>
 An RC LPF is made of a single resistor and a single capacitor. The use of these two passive components means the filter uses no additional power, as well as being very small, cheap, and easy to build. The only advantage of using a more complicated filter topology is a steeper roll-off above cutoff frequency, which is unnecessary given Doppl-E's signal range.<br>
-The cutoff frequency relationship follows as, <br>
+The cutoff frequency relationship follows as <br>
 $$ f_c = \frac{1}{2\pi RC}$$
 To rearrange in terms of capacitance, <br>
 $$C = \frac{1}{2\pi \cdot f_c \cdot R}$$
 
+### 4.2 Applied to Doppl-E
+As discussed in [Section 2.2](#22-application-to-doppl-e), the cutoff frequency required to capture the speed of vehicles on highways is 2035Hz. To account for component tolerances(5% resistor, 5% film capacitor), and to account for additional error through the form of signal corruption and mechanical interference, I made the design decision to increase the cutoff to 2340Hz. Adding this headroom will allow the system breathing room in case of unforeseen error.<br>
+For simplicity's sake, I selected the resistance component of the LPF, R5, to be equal to the rest of the resistors in the PCB.<br>
+$$R_5 = 10\text{k}\Omega$$
+Now we can substitute $R_5$ into the cutoff frequency relationship in [4.1 Derivation](#41-derivation),<br>
+$$C = \frac{1}{2\pi \cdot 2340 \cdot 10000}$$
+$$C = 6.8\text{nF}$$
+Therefore, the Low Pass Filter will be made of a $10\text{k}\Omega$ resistor and a 6.8nF capacitor. The resistor, like all other resistors inside the PCB, will have a component tolerance of 5%. For the sake of minimizing Low Pass Filter error, the capacitor selected will be a film capacitor with 5% component error. The low component error of resistor and capacitor involved will ensure the Low-Pass Filter error stays to an acceptably low range. <br>
+The Low-Pass Filter will help prevent the Python DSP pipeline from getting inaccurate data that could corrupt potential results. However, there are some further tools that can be utilized. An excellent example is the Notch Filter that will be discussed in [6. Notch Filter](#6-notch-filter), which will be used to tune out 60Hz utility noise.
 ## 5. Power
 🚧In progress - Power budget has not been assesed🚧
 ## 6. Notch Filter
