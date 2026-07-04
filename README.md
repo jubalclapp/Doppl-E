@@ -14,7 +14,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 ## Software
 - DSP pipeline: FFT-based Doppler processing
 - Pipeline verified end to end on 2000Hz test signal
-- Real-time velocity display
+- Real-time velocity display <br>
 🚧 In progress - Direction finding
 ## Results
 🚧 In progress - Breadboard prototype complete, PCB build in progress, software pipeline verified end to end, awaiting TRS cable for first live Doppler signal capture
