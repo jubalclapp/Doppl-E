@@ -1,7 +1,7 @@
 # Doppl-E | Audio Input Test Pipeline
 # Audio Input Test Pipeline confirms laptop is capable of receiving input signals prior to hardware integration
 # Test signal: with human touch, speaker output, connected hardware, etc
-# Author: <ME>
+# Author: Jubal Clapp
 import sounddevice as sd
 import numpy as np
 print(sd.query_devices()) # lists all devices on your laptop for debugging, comment at your discretion
