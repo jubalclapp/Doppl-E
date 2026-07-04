@@ -57,7 +57,8 @@ $$R = \sqrt[4]{\frac{P_s G^2 \lambda^2 \sigma}{(4\pi)^3 P_e}}$$<br>
 $P_s$ can be found on the HB100 datasheet on DigiKey, 13 mW<br>
 $G$ was experimentally measured to 1.5dBi in an academic study[1] trying to increase the scope of the HB100 chip, including methods such as range amplification. <br>
 $\lambda$ of the system is directly correlated to the speed of the propagating EM wave, $c$, and its frequency, $f$, at 10,525GHz,<br>
-$$\frac{c}{f} = \frac{3*10^8}{10.525*10^9} = 0.0285m$$  <br>
+$$\frac{c}{f} = \frac{3*10^8}{10.525*10^9}$$<br>
+$$\frac{c}{f} = 0.0285m$$<br>
 $\sigma$ must be approximated by selecting a target of a given size. Due to the description of Radar Cross Section derived in 1.1, when an EM wave hits a larger target, such as a car, a smaller amount of energy dissipates into random radiation, making it easier for the radar to "see". For the sake of approximation, the target will be assumed as a human, giving the range a worst-case figure. The RCS of a human can be estimated by considering the surface area of the front of an average person, which we will call $1m^2$<br>
 $P_e$ can be found using a resource found very early in the Doppl-E project[2]. From the page containing the Radar Range Equation, we can find that,<br>
 $$P_{Emin} = k T B_w \frac{S}{N_{min}} L_{ges}$$<br>
@@ -173,8 +174,8 @@ As discussed in [Section 2.2](#22-application-to-doppl-e), the cutoff frequency 
 For simplicity's sake, I selected the resistance component of the LPF, R5, to be equal to the rest of the resistors in the PCB.<br>
 $$R_5 = 10\text{k}\Omega$$
 Now we can substitute $R_5$ into the cutoff frequency relationship in [4.1 Derivation](#41-derivation),<br>
-$$C = \frac{1}{2\pi \cdot 2340 \cdot 10000}$$
-$$C = 6.8\text{nF}$$
+$$C = \frac{1}{2\pi \cdot 2340 \cdot 10000}$$<br>
+$$C = 6.8\text{nF}$$<br>
 Therefore, the Low Pass Filter will be made of a $10\text{k}\Omega$ resistor and a 6.8nF capacitor. The resistor, like all other resistors inside the PCB, will have a component tolerance of 5%. For the sake of minimizing Low Pass Filter error, the capacitor selected will be a film capacitor with 5% component error. The low component error of resistor and capacitor involved will ensure the Low-Pass Filter error stays to an acceptably low range. <br>
 The Low-Pass Filter will help prevent the Python DSP pipeline from getting inaccurate data that could corrupt potential results. However, there are some further tools that can be utilized. An excellent example is the Notch Filter that will be discussed in [6. Notch Filter](#6-notch-filter), which will be used to tune out 60Hz utility noise.
 ## 5. Power
