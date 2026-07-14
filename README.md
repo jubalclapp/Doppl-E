@@ -17,7 +17,12 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - Real-time velocity display <br>
 🚧 In progress - Direction finding
 ## Results
-🚧 In progress - Breadboard prototype complete, PCB build in progress, software pipeline verified end to end, awaiting TRS cable for first live Doppler signal capture
+✅ Phade 2 MVP Complete - Doppler detection confirmed
+- Moving target produces clear FFT peaks in expected frequency range
+- Stationary target produces flat noise floor - motion detection confirmed
+- 60Hz power line interferences idenitified and notes as dominant noise source
+- Notch filter planned for Phase 3 to emilinate power line noise
+- Full end-to-end pipeline confirmed: HB100 -> analog PCB -> ADC -> Python FFT
 ## Design Calculations
 🚧 In Progress - Actively being documented in [/docs](/docs/)
 ## Build Log

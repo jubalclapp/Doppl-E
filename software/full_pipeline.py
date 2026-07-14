@@ -37,7 +37,7 @@ fft_magnitude = np.abs(fft_result)
 frequencies = np.fft.fftfreq(len(audio), 1/sample_rate)
 
 # Only plot the positive frequencies to 3000Hz
-positive_mask = (frequencies >= 0) & (frequencies <= 3000)
+positive_mask = (frequencies >= 0) & (frequencies <= 2500)
 
 plt.figure()
 plt.plot(frequencies[positive_mask], fft_magnitude[positive_mask])
