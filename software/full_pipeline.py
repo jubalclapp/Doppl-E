@@ -4,11 +4,11 @@
 # Author:
 import sounddevice as sd
 import numpy as np
-from scipy.signal import find_peaks
+from scipy.signal import find_peaks, iirnotch, filtfilt, butter
 import matplotlib.pyplot as plt
 
 # - Parameters -
-duration = 5         # recording duration (seconds)
+duration = 10        # recording duration (seconds)
 sample_rate = 44100  # sample rate (Hz)
 device = 2           # UGREEN USB Audio Device
 lambda_ = 0.0285     # HB100 wavelength (m)
@@ -23,11 +23,21 @@ sd.wait()
 audio = audio.flatten()
 print("Capture complete")
 
+# # - Notch filter -
+# notch_freq = 60.0
+# quality_factor = 60.0
+# b_notch, a_notch = iirnotch(notch_freq, quality_factor, sample_rate)
+# audio_filtered = filtfilt(b_notch, a_notch, audio)
+# - High-Pass Filter
+cutoff = 80.0
+b_hp, a_hp = butter(4, cutoff/(sample_rate/2), btype = 'high')
+audio_filtered = filtfilt(b_hp, a_hp, audio)
+
 # - FFT Pipeline -
 
 # Apply Hann window
-window = np.hanning(len(audio))
-signal_windowed = audio * window
+window = np.hanning(len(audio_filtered))
+signal_windowed = audio_filtered * window
 
 # Run FFT on capture
 fft_result = np.fft.fft(signal_windowed)
