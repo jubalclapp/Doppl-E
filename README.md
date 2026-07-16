@@ -14,14 +14,16 @@ After I finished my initial scouting into different RF systems, I landed on rada
 ## Software
 - DSP pipeline: FFT-based Doppler processing
 - Pipeline verified end to end on 2000Hz test signal
-- Real-time velocity display <br>
+- Velocity estimation from FFT capture <br>
+- 80Hz high-pass filter for 60Hz power line interference rejection
 🚧 In progress - Direction finding
 ## Results
-✅ Phade 2 MVP Complete - Doppler detection confirmed
+✅ Phase 2 MVP Complete - Doppler detection confirmed
+- Minimum detectable velocity: 1.14 m/s (limited by 80Hz HPF cutoff)
+- Successfully detecting hand movement, walking speed, and fan rotation
 - Moving target produces clear FFT peaks in expected frequency range
 - Stationary target produces flat noise floor - motion detection confirmed
-- 60Hz power line interferences idenitified and notes as dominant noise source
-- Notch filter planned for Phase 3 to emilinate power line noise
+- 60Hz power line interference identified and resolved via high-pass filter 
 - Full end-to-end pipeline confirmed: HB100 -> analog PCB -> ADC -> Python FFT
 ## Design Calculations
 🚧 In Progress - Actively being documented in [/docs](/docs/)
@@ -30,6 +32,8 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - Two stage IF amplifier breadboarded
 - Analog PCB fabricated and populated
 - Software pipeline verified on 2000Hz test signal
-- TRS cable incoming for first live signal capture
+- Full system connected and powered via USB
+- 60Hz interference identified and resolved with high-pass filter
+- First successful end-to-end Doppler detection confirmed July 13 2026
 ## Author
 Jubal Clapp - 3rd Year Electrical Engineering @ Queen's Univerisity
