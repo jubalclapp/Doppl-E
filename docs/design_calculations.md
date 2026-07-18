@@ -178,7 +178,22 @@ $$C = \frac{1}{2\pi \cdot 2340 \cdot 10000}$$<br>
 $$C = 6.8\text{nF}$$<br>
 Therefore, the Low Pass Filter will be made of a $10\text{k}\Omega$ resistor and a 6.8nF capacitor. The resistor, like all other resistors inside the PCB, will have a component tolerance of 5%. For the sake of minimizing Low Pass Filter error, the capacitor selected will be a film capacitor with 5% component error. The low component error of resistor and capacitor involved will ensure the Low-Pass Filter error stays to an acceptably low range. <br>
 The Low-Pass Filter will help prevent the Python DSP pipeline from getting inaccurate data that could corrupt potential results. However, there are some further tools that can be utilized. An excellent example is the Notch Filter that will be discussed in [6. Notch Filter](#6-notch-filter), which will be used to tune out 60Hz utility noise.
-## 5. Power
+## 5. Power Budget
+
+### 5.1 Power Requirements
+There are only 2 notable active components across Doppl-E's hardware: <br>
+- HB100: 32mA at 5V, which was confirmed via bench testing
+- MCP6002: $\approx170\mu A$, according to the datasheet
+To calculate the total current consumption, we can add the current requirements from each component. It is vital to note that the 2 stage amplifier uses 2 MCP6002 op-amps<br>
+$$i_{total} = i_{HB100} + i_{MCP6002}$$
+$$i_{total} = 32\text{mA} + 2 \times 0.17\text{mA}$$
+$$i_{total} = 32.34\text{mA}$$
+This value matches the current reading of my bench supply during the PCB bench testing prior to full assembly. This further indicates the PCB has been designed to spec.<br>
+Now that $i_{total}$ has been solved for, we can multiply by the voltage across the analog PCB and HB100 to find total power consumption<br>
+$$p_{total} = i_{total} \cdot V$$
+$$p_{total} = 0.03234 \cdot 5$$
+$$p_{total} = 0.1617W$$
+
 🚧In progress - Power budget has not been assesed🚧
 ## 6. Notch Filter
 🚧In progress - Notch filter has not been designed🚧
