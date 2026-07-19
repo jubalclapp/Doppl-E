@@ -26,7 +26,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - 60Hz power line interference identified and resolved via high-pass filter 
 - Full end-to-end pipeline confirmed: HB100 -> analog PCB -> ADC -> Python FFT
 ## Design Calculations
-🚧 In Progress - Actively being documented in [/docs](/docs/)
+✅ Complete - Full derivations and applied calculations in [/docs](/docs/)
 ## Build Log
 - HB100 soldered and powered on, current draw confirmed at 32mA
 - Two stage IF amplifier breadboarded
