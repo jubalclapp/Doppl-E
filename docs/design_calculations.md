@@ -184,7 +184,7 @@ The Low-Pass Filter will help prevent the Python DSP pipeline from getting inacc
 There are only 2 notable active components across Doppl-E's hardware: <br>
 - HB100: 32mA at 5V, which was confirmed via bench testing
 - MCP6002: $\approx170\mu A$, according to the datasheet
-To calculate the total current consumption, we can add the current requirements from each component. It is vital to note that the 2 stage amplifier uses 2 MCP6002 op-amps<br>
+To calculate the total current consumption, we can add the current requirements from each component. It is vital to note that the 2 stage amplifier uses 2 MCP6002 op-amps. <br>
 $$i_{total} = i_{HB100} + i_{MCP6002}$$
 $$i_{total} = 32\text{mA} + 2 \times 0.17\text{mA}$$
 $$i_{total} = 32.34\text{mA}$$
