@@ -218,10 +218,10 @@ Problems arose during the physical implementation of the filter. I utilized a so
 In order to filter out the utility frequency and other low frequency noise, a software High-Pass Filter was selected.<br>
 To ensure that any legitimate signals adjacent to 80Hz don't get filtered, a Butterworth HPF was selected. The key difference between a Butterworth filter and a RC filter is the rolloff. An analogy of acceleration can be used for rolloff: imagine the filter is fully active from 0-80Hz. A standard first order filter would have a long "deceleration period" above 80Hz , where the filter has a slow transition from attenuation to full passthrough. A Butterworth filter works like a differential equation, where we can add more polynomial terms to speed up deceleration after 80Hz. In our implementation, an order 4 is selected, which will greatly "speed up the deceleration period", all while remaining relatively simple for the computer to execute.<br>
 However, such a filter comes with a tradeoff. Full filtering from 0-80Hz means there is now a minimum speed required to activate Doppl-E, which we can calculate using derivations in [2.1 Derivation](#21-derivation).<br>
-$$f_{int} = \frac{2v}{\lambda}$$
-$$v = \frac{f_{int} \cdot \lambda}{2}$$
-$$v = \frac{80 \cdot 0.0285}{2}$$
-$$v = 1.14 \text{ m/s}$$
+$$f_{int} = \frac{2v}{\lambda}$$<br>
+$$v = \frac{f_{int} \cdot \lambda}{2}$$<br>
+$$v = \frac{80 \cdot 0.0285}{2}$$<br>
+$$v = 1.14 \text{ m/s}$$<br>
 Now, the Doppl-E system has a known minimum detection velocity of 1.14m/s.
 
 ### 6.4 Application to Doppl-E
