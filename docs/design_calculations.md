@@ -204,7 +204,6 @@ The power stack within Doppl-E's hardware follows:<br>
 $$\text{USB port} \rightarrow \text{J2 port on PCB} \rightarrow \text{VDD rail} \rightarrow \text{PCB components(including HB100 power terminal)}$$
 The 24 gauge copper wire used as a connection is able to handle the 0.1617W draw required, and the copper rails inside the PCB are designed to hold up against much higher power requirements.<br>
 There are some important considerations to ensure component safety. Primarily, decoupling capacitors discussed in [3.2 Applied to Doppl-E](#32-applied-to-doppl-e) are utilized to prevent any unwanted voltage spikes across sensitive components, such as the MCP6002s. Additionally, every component is designed to operate at the same 5V delivered by the USB 2.0. This voltage continuity means no voltage regulator is required. 
-🚧In progress - Power budget has not been assesed🚧
 ## 6. Notch Filter
 🚧In progress - Notch filter has not been designed🚧
 ## Citations
