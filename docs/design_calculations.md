@@ -204,8 +204,31 @@ The power stack within Doppl-E's hardware follows:<br>
 $$\text{USB port} \rightarrow \text{J2 port on PCB} \rightarrow \text{VDD rail} \rightarrow \text{PCB components(including HB100 power terminal)}$$
 The 24 gauge copper wire used as a connection is able to handle the 0.1617W draw required, and the copper rails inside the PCB are designed to hold up against much higher power requirements.<br>
 There are some important considerations to ensure component safety. Primarily, decoupling capacitors discussed in [3.2 Applied to Doppl-E](#32-applied-to-doppl-e) are utilized to prevent any unwanted voltage spikes across sensitive components, such as the MCP6002s. Additionally, every component is designed to operate at the same 5V delivered by the USB 2.0. This voltage continuity means no voltage regulator is required. 
-## 6. Notch Filter
-🚧In progress - Notch filter has not been designed🚧
+## 6. High-Pass Filter & Noise Rejection
+
+### 6.1 60Hz Interference Problem
+DC power is fantastic in small circuits, but over longer distances, large amounts of resistive losses are experienced. To ensure power delivery meets expectations, the modern power grid uses AC power distribution. For the sake of stability and convention, a frequency had to be selected across the power grid. In North America, the selected frequency is 60Hz. <br>
+Human ears cannot hear a pitch that low, but Doppl-E can absolutely pick up the frequency noise. During initial end-to-end tests, it was noted that 60Hz frequency noise prevented accurate speed estimation.<br>
+
+### 6.2 Notch Filter Attempt
+A notch filter works by attenuating a narrow band and passing everything else. To remove utility frequency noise, my original approach was going to be setting a narrow notch filter directly containing 60Hz.<br>
+Problems arose during the physical implementation of the filter. I utilized a software rendition of the classic notch filter in the Python library "scipy.signal". Unfortunately, the filter amplified other low frequency noises while attenuating frequencies over 500Hz expected to be passed through cleanly. These errors made velocity estimation extremely inaccurate, and it was clear a new approach was needed.<br>
+
+### 6.3 High-Pass Filter 
+In order to filter out the utility frequency and other low frequency noise, a software High-Pass Filter was selected.<br>
+To ensure that any legitimate signals adjacent to 80Hz don't get filtered, a Butterworth HPF was selected. The key difference between a Butterworth filter and a RC filter is the rolloff. An analogy of acceleration can be used for rolloff: imagine the filter is fully active from 0-80Hz. A standard first order filter would have a long "deceleration period" above 80Hz , where the filter has a slow transition from attenuation to full passthrough. A Butterworth filter works like a differential equation, where we can add more polynomial terms to speed up deceleration after 80Hz. In our implementation, an order 4 is selected, which will greatly "speed up the deceleration period", all while remaining relatively simple for the computer to execute.<br>
+However, such a filter comes with a tradeoff. Full filtering from 0-80Hz means there is now a minimum speed required to activate Doppl-E, which we can calculate using derivations in [2.1 Derivation](#21-derivation).<br>
+$$f_{int} = \frac{2v}{\lambda}$$
+$$v = \frac{f_{int} \cdot \lambda}{2}$$
+$$v = \frac{80 \cdot 0.0285}{2}$$
+$$v = 1.14 \text{ m/s}$$
+Now, the Doppl-E system has a known minimum detection velocity of 1.14m/s.
+
+### 6.4 Application to Doppl-E
+scipy.signal was used once again, this time implementing a Butterworth filter with the specifications cutoff = 80Hz, order = 4.<br>
+Results were immediately promising. The FFT plot displayed little to no noise, and the velocity predictions were realistic once again. Further specifications on error will be included in [Validation Results](/docs/validation_results.md).
+
+
 ## Citations
 [1] P. Z. Petkov, R. Vitanov, and I. Nachev, "One Possibility to Increase 
     the Scope for Radar Module HB100 and Fields of Application," 
