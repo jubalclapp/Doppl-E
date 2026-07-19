@@ -57,7 +57,7 @@ $$R = \sqrt[4]{\frac{P_s G^2 \lambda^2 \sigma}{(4\pi)^3 P_e}}$$<br>
 $P_s$ can be found on the HB100 datasheet on DigiKey, 13 mW<br>
 $G$ was experimentally measured to 1.5dBi in an academic study[1] trying to increase the scope of the HB100 chip, including methods such as range amplification. <br>
 $\lambda$ of the system is directly correlated to the speed of the propagating EM wave, $c$, and its frequency, $f$, at 10,525GHz,<br>
-$$\frac{c}{f} = \frac{3*10^8}{10.525*10^9}$$<br>
+$$\frac{c}{f} = \frac{3 \cdot 10^8}{10.525 \cdot 10^9}$$<br>
 $$\frac{c}{f} = 0.0285m$$<br>
 $\sigma$ must be approximated by selecting a target of a given size. Due to the description of Radar Cross Section derived in 1.1, when an EM wave hits a larger target, such as a car, a smaller amount of energy dissipates into random radiation, making it easier for the radar to "see". For the sake of approximation, the target will be assumed as a human, giving the range a worst-case figure. The RCS of a human can be estimated by considering the surface area of the front of an average person, which we will call $1m^2$<br>
 $P_e$ can be found using a resource found very early in the Doppl-E project[2]. From the page containing the Radar Range Equation, we can find that,<br>
