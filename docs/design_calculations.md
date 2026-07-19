@@ -165,7 +165,7 @@ In any signal transmission line, there is the risk of accidental signal noise jo
 A low-pass filter acts just like the childhood game of limbo. The cutoff frequency is like the bar, allowing any frequency below it to pass freely. Any frequency above, regardless of signal strength, gets filtered out. There are many designs for Low-Pass filters, such as multiple-order quick response low-pass filters like Butterworths. In our instance, a simple RC low-pass filter is ideal.<br>
 An RC LPF is made of a single resistor and a single capacitor. The use of these two passive components means the filter uses no additional power, as well as being very small, cheap, and easy to build. The only advantage of using a more complicated filter topology is a steeper roll-off above cutoff frequency, which is unnecessary given Doppl-E's signal range.<br>
 The cutoff frequency relationship follows as <br>
-$$ f_c = \frac{1}{2\pi RC}$$
+$$f_c = \frac{1}{2 \pi \text{RC}}$$
 To rearrange in terms of capacitance, <br>
 $$C = \frac{1}{2\pi \cdot f_c \cdot R}$$
 
@@ -183,7 +183,7 @@ The Low-Pass Filter will help prevent the Python DSP pipeline from getting inacc
 ### 5.1 Power Requirements
 There are only 2 notable active components across Doppl-E's hardware: <br>
 - HB100: 32mA at 5V, which was confirmed via bench testing
-- MCP6002: $\approx170\mu A$, according to the datasheet
+- MCP6002: $\approx170\mu A$, according to the datasheet<br>
 To calculate the total current consumption, we can add the current requirements from each component. It is vital to note that the 2 stage amplifier uses 2 MCP6002 op-amps. <br>
 $$i_{total} = i_{HB100} + i_{MCP6002}$$
 $$i_{total} = 32\text{mA} + 2 \times 0.17\text{mA}$$
@@ -201,7 +201,7 @@ To conclude, an external power supply is not required; the 93.5% overhead provid
 
 ### 5.3 Power Delivery
 The power stack within Doppl-E's hardware follows:<br>
-$$\text{USB port} \rightarrow \text{J2 port on PCB} \rightarrow \text{VDD rail} \rightarrow \text{PCB components(including HB100 power terminal)}$$
+$$\text{USB port} \rightarrow \text{J2 port on PCB} \rightarrow \text{VDD rail} \rightarrow \text{PCB components(including HB100 power terminal)}$$<br>
 The 24 gauge copper wire used as a connection is able to handle the 0.1617W draw required, and the copper rails inside the PCB are designed to hold up against much higher power requirements.<br>
 There are some important considerations to ensure component safety. Primarily, decoupling capacitors discussed in [3.2 Applied to Doppl-E](#32-applied-to-doppl-e) are utilized to prevent any unwanted voltage spikes across sensitive components, such as the MCP6002s. Additionally, every component is designed to operate at the same 5V delivered by the USB 2.0. This voltage continuity means no voltage regulator is required. 
 ## 6. High-Pass Filter & Noise Rejection
