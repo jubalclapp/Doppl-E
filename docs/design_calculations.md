@@ -194,6 +194,16 @@ $$p_{total} = i_{total} \cdot V$$
 $$p_{total} = 0.03234 \cdot 5$$
 $$p_{total} = 0.1617W$$
 
+### 5.2 Power Source
+The standard USB 2.0 port can deliver 5 volts at 500mA, totalling 2.5W[4].<br>
+Comparing to the wattage draw needed derived in [5.1 Power Requirements](#51-power-requirements), the wattage required to power the HB100 and analog PCB is only 6.5% of the overhead provided by a USB 2.0. <br>
+To conclude, an external power supply is not required; the 93.5% overhead provided by the USB 2.0 will be more than sufficient.
+
+### 5.3 Power Delivery
+The power stack within Doppl-E's hardware follows:<br>
+$$\text{USB port} \rightarrow \text{J2 port on PCB} \rightarrow \text{VDD rail} \rightarrow \text{PCB components(including HB100 power terminal)}$$
+The 24 gauge copper wire used as a connection is able to handle the 0.1617W draw required, and the copper rails inside the PCB are designed to hold up against much higher power requirements.<br>
+There are some important considerations to ensure component safety. Primarily, decoupling capacitors discussed in [3.2 Applied to Doppl-E](#32-applied-to-doppl-e) are utilized to prevent any unwanted voltage spikes across sensitive components, such as the MCP6002s. Additionally, every component is designed to operate at the same 5V delivered by the USB 2.0. This voltage continuity means no voltage regulator is required. 
 🚧In progress - Power budget has not been assesed🚧
 ## 6. Notch Filter
 🚧In progress - Notch filter has not been designed🚧
@@ -202,8 +212,9 @@ $$p_{total} = 0.1617W$$
     the Scope for Radar Module HB100 and Fields of Application," 
     ResearchGate. [Online]. Available: 
     https://www.researchgate.net/publication/334307851<br>
-[2]C. Wolff, “The Radar Equation - Radartutorial,” Radartutorial.eu, 2020. 
+[2] C. Wolff, “The Radar Equation - Radartutorial,” Radartutorial.eu, 2020. 
     https://www.radartutorial.eu/01.basics/The%20Radar%20Range%20Equation.en.html<br>
 [3] ST Engineering, "HB100 Microwave Sensor Application Note," MSAN-001, 
     Antenna Test Lab. [Online]. Available: 
-    https://antennatestlab.com/wp-content/uploads/2019/07/HB100-Spec-Sheet-Radar-Sensor-Application-Note-Data-Sheet.pdf
+    https://antennatestlab.com/wp-content/uploads/2019/07/HB100-Spec-Sheet-Radar-Sensor-Application-Note-Data-Sheet.pdf<br>
+[4] K. Godiyal, “How Much Power does USB Port Output? (USB 1.0, 2.0, 3.0),” www.etechnophiles.com, Jan. 12, 2023. https://www.etechnophiles.com/usb-port-power-output/ (accessed July 18, 2026).
