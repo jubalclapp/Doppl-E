@@ -1,7 +1,7 @@
 # Doppl-E | Full DSP Pipeline
 # Captures audio from UGREEN ADC, runs FFT, identifies Doppler peak
 # converts to velocity
-# Author:
+# Author: Jubal Clapp
 import sounddevice as sd
 import numpy as np
 from scipy.signal import find_peaks, iirnotch, filtfilt, butter
@@ -23,12 +23,7 @@ sd.wait()
 audio = audio.flatten()
 print("Capture complete")
 
-# # - Notch filter -
-# notch_freq = 60.0
-# quality_factor = 60.0
-# b_notch, a_notch = iirnotch(notch_freq, quality_factor, sample_rate)
-# audio_filtered = filtfilt(b_notch, a_notch, audio)
-# - High-Pass Filter
+# - High-Pass Filter -
 cutoff = 80.0
 b_hp, a_hp = butter(4, cutoff/(sample_rate/2), btype = 'high')
 audio_filtered = filtfilt(b_hp, a_hp, audio)
