@@ -1,6 +1,6 @@
 # Doppl-E | Real-Time Streaming Pipeline
 # Continously captures audio, runs FFT, and outputs a live velocity estimate in the terminal
-# Verified on hardware 8/2/26: hand movement and vehicle detection(at 3-10mph)
+# Verified on hardware 8/2/26: hand movement and vehicle detection(at 3-7mph)
 # Author: Jubal Clapp
 
 import numpy as np

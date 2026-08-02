@@ -14,8 +14,10 @@ After I finished my initial scouting into different RF systems, I landed on rada
 ## Software
 - DSP pipeline: FFT-based Doppler processing
 - Pipeline verified end to end on 2000Hz test signal
-- Velocity estimation from FFT capture <br>
+- Velocity estimation from FFT capture 
 - 80Hz high-pass filter for 60Hz power line interference rejection
+- Real-time streaming pipeline with live velocity output
+- Verified on hardware: hand movement and vehicle detection <br>
 🚧 In progress - Direction finding
 ## Results
 ✅ Phase 2 MVP Complete - Doppler detection confirmed
@@ -25,6 +27,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - Stationary target produces flat noise floor - motion detection confirmed
 - 60Hz power line interference identified and resolved via high-pass filter 
 - Full end-to-end pipeline confirmed: HB100 -> analog PCB -> ADC -> Python FFT
+- Real-time vehicle detection confirmed: 3-7mph measured on slow moving car
 ## Design Calculations
 ✅ Complete - Full derivations and applied calculations in [/docs](/docs/)
 ## Build Log
@@ -34,6 +37,8 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - Software pipeline verified on 2000Hz test signal
 - Full system connected and powered via USB
 - 60Hz interference identified and resolved with high-pass filter
-- First successful end-to-end Doppler detection confirmed July 13 2026
+- First successful end-to-end Doppler detection confirmed (July 13, 2026)
+- Real-time streaming pipeline implemented and verified on hardware
+- Vehicle detection confirmed in parking lot test (August 2, 2026)
 ## Author
 Jubal Clapp - 3rd Year Electrical Engineering @ Queen's Univerisity
