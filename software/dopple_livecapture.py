@@ -1,5 +1,6 @@
 # Doppl-E | Real-Time Streaming Pipeline
 # Continously captures audio, runs FFT, and outputs a live velocity estimate in the terminal
+# Verified on hardware 8/2/26: hand movement and vehicle detection(at 3-10mph)
 # Author: Jubal Clapp
 
 import numpy as np
@@ -12,11 +13,11 @@ import threading
 sample_rate = 44100     # Hz
 chunk_size = 4096       # samples/chunk      (~0.09 seconds)
 window_size = 22050     # samples/FFT window (~0.5 seconds)
-device = 2              # UGREEN USB Audio  Device
+device = 2             # UGREEN USB Audio  Device
 lambda_ = 0.0285        # HB100 signal wavelength (m)
 min_freq = 80           # HPF cutoff (Hz)
 max_freq = 2340         # LPF cutoff (Hz)
-peak_threshold = 1.0    # minimum FFT magnitude to report a detection
+peak_threshold = 0.5   # minimum FFT magnitude to report a detection
 
 # -Shared buffer- #
 audio_buffer = deque(maxlen=window_size)
@@ -32,7 +33,7 @@ def process_buffer():
     with buffer_lock:
         if len(audio_buffer) < window_size:
             return None   # not enough data to make an estimate
-        samples = np.array(audio_buffer)\
+        samples = np.array(audio_buffer)
 
     # Hann window
     window = np.hanning(len(samples))
@@ -60,14 +61,14 @@ def process_buffer():
 
     # Convert frequency to velocity
     velocity_ms = (peak_freq * lambda_) / 2
-    velocity_mph = velocity_ms / 2.237
+    velocity_mph = velocity_ms * 2.237
 
     return peak_freq, velocity_ms, velocity_mph, peak_magnitude
 
 # -Audio callback- #
 def audio_callback(indata, frames, time, status):
     with buffer_lock:
-        audio_buffer.extend(indata[: 0])
+        audio_buffer.extend(indata[:, 0])
 
 # -Central Streaming Loop- #
 def main():
