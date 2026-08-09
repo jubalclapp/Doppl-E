@@ -13,7 +13,7 @@ import threading
 sample_rate = 44100     # Hz
 chunk_size = 4096       # samples/chunk      (~0.09 seconds)
 window_size = 22050     # samples/FFT window (~0.5 seconds)
-device = 2             # UGREEN USB Audio  Device
+device = 1             # UGREEN USB Audio  Device
 lambda_ = 0.0285        # HB100 signal wavelength (m)
 min_freq = 80           # HPF cutoff (Hz)
 max_freq = 2340         # LPF cutoff (Hz)

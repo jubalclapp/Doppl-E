@@ -1,11 +1,32 @@
-## Doppl-E Lab |
-
+## Doppl-E Lab | Radar Control Interface
+# Real-time Doppler velocity measurement and visualization
+# Verified on hardware: vehicle detection up to 20mph
+# Author: Jubal Clapp
 
 import tkinter as tk
 from tkinter import ttk
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import sounddevice as sd
+from scipy.signal import butter, filtfilt
+from collections import deque
+import threading
+import time
+
+# - Audio Parameters -
+sample_rate = 44100     # Hz
+chunk_size = 4096       # samples/chunk      (~0.09 seconds)
+window_size = 22050     # samples/FFT window (~0.5 seconds)
+device = 2             # UGREEN USB Audio  Device
+lambda_ = 0.0285        # HB100 signal wavelength (m)
+min_freq = 80           # HPF cutoff (Hz)
+max_freq = 2340         # LPF cutoff (Hz)
+peak_threshold = 0.5   # minimum FFT magnitude to report a detection
+
+# - Shared buffer - #
+audio_buffer = deque(maxlen=window_size)
+buffer_lock = threading.Lock()
 
 # - Colour Scheme -
 BG_DARK = "#0a0a0a"         # main background
@@ -27,7 +48,113 @@ class DopplELab:
         self.root.resizable(False, False)
 
         self.is_capturing = False
+        self.session_start = None
+        self.session_velocities = []
         self.build_ui()
+
+    # - High-Pass Filter - #
+    def apply_hpf(self, audio):
+        b, a = butter(4, min_freq / (sample_rate / 2), btype='high')
+        return filtfilt(b, a, audio)
+
+    # -FFT and velocity extraction- #
+    def process_buffer(self):
+        with buffer_lock:
+            if len(audio_buffer) < window_size:
+                return None  # not enough data to make an estimate
+            samples = np.array(audio_buffer)
+
+        # Hann window
+        window = np.hanning(len(samples))
+        windowed = self.apply_hpf(samples) * window
+
+        # FFT
+        fft_result = np.abs(np.fft.fft(windowed))
+        frequencies = np.fft.fftfreq(len(samples), 1 / sample_rate)
+
+        # Positive frequencies in detection range
+        mask = (frequencies >= min_freq) & (frequencies <= max_freq)
+        masked_freqs = frequencies[mask]
+        masked_fft = fft_result[mask]
+
+        if len(masked_fft) == 0:
+            return None
+
+        # Find detected peak
+        peak_idx = np.argmax(masked_fft)
+        peak_magnitude = masked_fft[peak_idx]
+        peak_freq = masked_freqs[peak_idx]
+
+        if peak_magnitude < peak_threshold:
+            return None  # below detection threshold
+
+        # Convert frequency to velocity
+        velocity_ms = (peak_freq * lambda_) / 2
+        velocity_mph = velocity_ms * 2.237
+
+        return peak_freq, velocity_ms, velocity_mph, peak_magnitude, masked_fft, masked_fft
+
+    def audio_callback(self, indata, frames, time, status):
+        with buffer_lock:
+            audio_buffer.extend(indata[:, 0])
+
+    def start_stream(self):
+        self.stream = sd.InputStream(
+            samplerate = sample_rate,
+            channels = 1,
+            device = device,
+            blocksize = chunk_size,
+            callback = self.audio_callback
+        )
+        self.stream.start()
+
+    def stop_stream(self):
+        if hasattr(self, "stream"):
+            self.stream.stop()
+            self.stream.close()
+
+    def update_display(self):
+        if not self.is_capturing:
+            return
+
+        result = self.process_buffer()
+
+        if result:
+            freq, v_ms, v_mph, mag, masked_freqs, masked_fft = result
+
+            self.session_velocities.append(v_ms)
+
+            # Update display
+            self.vel_ms.config(text=f"{v_ms:.2f}")
+            self.vel_mph.config(text=f"{v_mph:.1f} mph")
+            self.vel_hz.config(text=f"{freq:.1f} Hz")
+
+            # Update session stats
+            elapsed = int(time.time() - self.session_start)
+            mins = elapsed // 60
+            secs = elapsed % 60
+            self.stat_time.config(text=f"{mins:02d}:{secs:02d}")
+
+            if self.session_velocities:
+                self.stat_max.config(text=f"{max(self.session_velocities):.2f} m/s")
+                self.stat_min.config(text=f"{min(self.session_velocities):.2f} m/s")
+                avg = sum(self.session_velocities) / len(self.session_velocities)
+                self.stat_avg.config(text=f"{avg:.2f} m/s")
+
+            # Update FFT plot
+            self.line.set_data(masked_freqs, masked_fft)
+            self.ax.set_ylim(0, max(masked_fft) * 1.2)
+            self.canvas.draw()
+
+        else:
+            # No target detected
+            self.vel_ms.config(text="0.00")
+            self.vel_mph.config(text="0.0 mph")
+            self.vel_hz.config(text="0 Hz")
+
+        # Update in 500ms
+        self.root.after(500, self.update_display)
+
 
     def build_ui(self):
         # - Top bar -
@@ -181,11 +308,15 @@ class DopplELab:
 
     def start_capture(self):
         self.is_capturing = True
+        self.session_start = time.time()
+        self.session_velocities = []
         self.capture_btn.config(text="STOP CAPTURE", bg=ACCENT_RED,
                                 fg=TEXT_PRIMARY)
         self.save_btn.pack_forget()
         self.status.config(text="CAPTURING - Point antenna at target",
                            fg=ACCENT)
+        self.start_stream()
+        self.update_display()
 
     def stop_capture(self):
         self.is_capturing = False
@@ -194,6 +325,7 @@ class DopplELab:
         self.save_btn.pack(padx=20, fill=tk.X, pady=(10, 0))
         self.status.config(text="STOPPED - Save report or start new capture",
                            fg=ACCENT_RED)
+        self.stop_stream()
 
     def save_report(self):
         # Placeholder for report generation
