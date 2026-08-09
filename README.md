@@ -18,7 +18,6 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - 80Hz high-pass filter for 60Hz power line interference rejection
 - Real-time streaming pipeline with live velocity output
 - Verified on hardware: hand movement and vehicle detection <br>
-🚧 In progress - Direction finding
 ## Results
 ✅ Phase 2 MVP Complete - Doppler detection confirmed
 - Minimum detectable velocity: 1.14 m/s (limited by 80Hz HPF cutoff)
