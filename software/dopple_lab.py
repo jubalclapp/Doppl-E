@@ -50,6 +50,9 @@ class DopplELab:
         self.root.geometry("1200x700")
         self.root.configure(bg=BG_DARK)
         self.root.resizable(False, False)
+        self.root.state("zoomed")
+        self.root.bind('<F11>', lambda e: self.root.state(
+            'normal' if self.root.state() == 'zoomed' else 'zoomed'))
 
         self.is_capturing = False
         self.session_start = None
