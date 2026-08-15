@@ -4,7 +4,7 @@
 # Author: Jubal Clapp
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import filedialog
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -13,6 +13,10 @@ from scipy.signal import butter, filtfilt
 from collections import deque
 import threading
 import time
+import zipfile
+import csv
+import os
+from datetime import datetime
 
 # - Audio Parameters -
 sample_rate = 44100     # Hz
@@ -328,8 +332,78 @@ class DopplELab:
         self.stop_stream()
 
     def save_report(self):
-        # Placeholder for report generation
-        print("Save report triggered")
+        if not self.session_velocities:
+            self.status.config(text="No data to save, run a capture first",
+                               fg=ACCENT_RED)
+            return
+
+        # Generate timestamp for file names
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        zip_filename = f"dopple_session_{timestamp}.zip"
+
+        # Ask user desired save path
+        save_path = filedialog.asksaveasfilename(
+            defaultextension=".zip",
+            filetypes=[("ZIP files", "*.zip")],
+            initialfile=zip_filename,
+            title="Save Doppl-E Session Report"
+        )
+
+        if not save_path:
+            return # user cancelled file save
+
+        # --- Build report ---
+        session_duration = int(time.time() - self.session_start)
+        mins = session_duration // 60
+        secs = session_duration % 60
+        avg_velocity = sum(self.session_velocities) / len(self.session_velocities)
+
+        # 1. Session summary text file
+        summary = f"""DOPPL-E LAB - SESSION REPORT
+        Generated :           {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+        Session Duration:     {mins:02d}:{secs:02d}
+        Total Detections:     {len(self.session_velocities)}
+        Max Velocity:         {max(self.session_velocities):.2f} m/s ({max(self.session_velocities)*2.237:.1f} mph)
+        Min Velocity:         {min(self.session_velocities):.2f} m/s ({min(self.session_velocities)*2.237:.1f} mph)
+        Avg Velocity:         {avg_velocity:.2f} m/s ({avg_velocity*2.237:.1f} mph)
+        {'=0*40'}
+        System Configuration
+        HPF Cutoff:           {min_freq} Hz
+        LPF Cutoff:           {max_freq} Hz
+        Min Detectable Speed: 1.14 m/s
+        Sample Rate:          {sample_rate} Hz
+"""
+
+        # 2. Velocity log CSV
+        csv_rows = []
+        for i, v in enumerate(self.session_velocities):
+            csv_rows.append([i * 0.5, round(v, 3), round(v * 2.237, 3)])
+
+        # 3. FFT Snapshot
+        fft_image_path = f"fft_snapshot_{timestamp}.png"
+        self.fig.savefig(fft_image_path, facecolor=BG_PANEL,
+                     bbox_inches='tight', dpi=150)
+
+        # - Write zip file -
+        with zipfile.ZipFile(save_path,  'w') as zf:
+            # Summary
+            zf.writestr(f"session_summary_{timestamp}.txt", summary)
+
+            # CSV
+            import io
+            csv_buffer = io.StringIO()
+            writer = csv.writer(csv_buffer)
+            writer.writerow(["Time (s)", "Velocity (m/s)", "Velocity (mph)"])
+            writer.writerows(csv_rows)
+            zf.writestr(f"velocity_log_{timestamp}.csv", csv_buffer.getvalue())
+
+            # FFT image
+            zf.write(fft_image_path, f"fft_snapshot_{timestamp}.png")
+
+        # Clean FFT image
+        os.remove(fft_image_path)
+
+        self.status.config(text=f"Report saved: {os.path.basename(save_path)}", fg=ACCENT)
 
     def show_info(self):
         # Placeholder for dialog
