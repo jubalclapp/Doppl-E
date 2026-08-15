@@ -96,9 +96,9 @@ class DopplELab:
         velocity_ms = (peak_freq * lambda_) / 2
         velocity_mph = velocity_ms * 2.237
 
-        return peak_freq, velocity_ms, velocity_mph, peak_magnitude, masked_fft, masked_fft
+        return peak_freq, velocity_ms, velocity_mph, peak_magnitude, masked_freqs, masked_fft
 
-    def audio_callback(self, indata, frames, time, status):
+    def audio_callback(self, indata, frames, time_info, status):
         with buffer_lock:
             audio_buffer.extend(indata[:, 0])
 
