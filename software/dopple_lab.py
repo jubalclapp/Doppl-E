@@ -4,7 +4,7 @@
 # Author: Jubal Clapp
 
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -51,6 +51,7 @@ class DopplELab:
         self.root.configure(bg=BG_DARK)
         self.root.resizable(False, False)
         self.root.state("zoomed")
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
         self.root.bind('<F11>', lambda e: self.root.state(
             'normal' if self.root.state() == 'zoomed' else 'zoomed'))
 
@@ -106,14 +107,21 @@ class DopplELab:
             audio_buffer.extend(indata[:, 0])
 
     def start_stream(self):
-        self.stream = sd.InputStream(
-            samplerate = sample_rate,
-            channels = 1,
-            device = device,
-            blocksize = chunk_size,
-            callback = self.audio_callback
-        )
-        self.stream.start()
+        try:
+            self.stream = sd.InputStream(
+                samplerate = sample_rate,
+                channels = 1,
+                device = device,
+                blocksize = chunk_size,
+                callback = self.audio_callback
+            )
+            self.stream.start()
+        except Exception as e:
+            self.status.config(
+                text="Audio error: check ADC connection",
+                fg=ACCENT_RED)
+            self.is_capturing = False
+            self.capture_btn.config(text="START CAPTURE", bg=ACCENT_RED, fg=BG_DARK)
 
     def stop_stream(self):
         if hasattr(self, "stream"):
@@ -314,6 +322,16 @@ class DopplELab:
             self.stop_capture()
 
     def start_capture(self):
+        # Reset values
+        self.stat_max.config(text="0.00m/s")
+        self.stat_min.config(text="0.00m/s")
+        self.stat_avg.config(text="0.00m/s")
+        self.stat_time.config(text="00:00")
+        self.vel_ms.config(text="0.00")
+        self.vel_mph.config(text="0.0 mph")
+        self.vel_hz.config(text="0 Hz")
+
+        # Capture
         self.is_capturing = True
         self.session_start = time.time()
         self.session_velocities = []
@@ -324,6 +342,10 @@ class DopplELab:
                            fg=ACCENT)
         self.start_stream()
         self.update_display()
+
+        # Debouncer
+        self.capture_btn.config(state=tk.DISABLED)
+        self.root.after(1000, lambda: self.capture_btn.config(state=tk.NORMAL))
 
     def stop_capture(self):
         self.is_capturing = False
@@ -411,6 +433,17 @@ class DopplELab:
     def show_info(self):
         # Placeholder for dialog
         print("Info triggered")
+
+    def on_close(self):
+        if self.is_capturing:
+            confirm = messagebox.askyesno(
+                "Doppl-E Lab",
+            "Capture is active. Stop and exit?")
+            if not confirm:
+                return
+            self.stop_stream()
+        self.root.destroy()
+
 
 # -- Launch ---
 if __name__ == "__main__":
