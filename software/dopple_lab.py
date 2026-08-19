@@ -4,7 +4,7 @@
 # Author: Jubal Clapp
 
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, ttk
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -301,7 +301,7 @@ class DopplELab:
         # Status bar
         self.status = tk.Label(right_panel,
                                text="IDLE - Press Start Capture to begin",
-                               font=("TkDefaultFont", 9),
+                               font=("TkDefaultFont", 20),
                                fg=TEXT_DIM, bg=BG_PANEL)
         self.status.pack(pady=(0, 10))
 
@@ -431,9 +431,86 @@ class DopplELab:
         self.status.config(text=f"Report saved: {os.path.basename(save_path)}", fg=ACCENT)
 
     def show_info(self):
-        # Placeholder for dialog
-        print("Info triggered")
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Doppl-E Lab - Guide")
+        dialog.geometry("500x400")
+        dialog.configure(bg=BG_DARK)
+        dialog.resizable(False, False)
+        dialog.grab_set()
 
+        # Header
+        header = tk.Frame(dialog, bg=BG_PANEL, height=50)
+        header.pack(fill=tk.X)
+        header.pack_propagate(False)
+        tk.Label(header, text="DOPPL-E LAB - GUIDE",
+                 font=("TkDefaultFont", 13, "bold"),
+                 fg=ACCENT, bg=BG_PANEL).pack(side=tk.LEFT, padx=20, pady=14)
+
+        # Notebook (tabs)
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Dark.TNotebook",
+                        background=BG_DARK,
+                        borderwidth=0)
+        style.configure("Dark.TNotebook.Tab",
+                        background=BG_CARD,
+                        foreground=TEXT_SECONDARY,
+                        padding=[12, 6],
+                        borderwidth=0)
+        style.map("Dark.TNotebook.Tab",
+                  background=[("selected", BG_DARK)],
+                  foreground=[("selected", TEXT_PRIMARY)])
+
+        notebook = ttk.Notebook(dialog, style="Dark.TNotebook")
+        notebook.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
+
+        def make_tab(title):
+            frame = tk.Frame(notebook, bg=BG_PANEL)
+            notebook.add(frame, text=title)
+            return frame
+
+        def add_text(frame, content):
+            text = tk.Text(frame, bg=BG_PANEL, fg=TEXT_PRIMARY,
+                           font=("TkDefaultFont", 13),
+                           relief=tk.FLAT, wrap=tk.WORD,
+                            padx=15, pady=10,
+                            state=tk.NORMAL,
+                            cursor="arrow")
+            text.insert(tk.END, content)
+            text.config(state=tk.DISABLED)
+            text.pack(fill=tk.BOTH, expand=True)
+
+            # - Tab 1: About -
+            about = make_tab("  About  ")
+            add_text(about, """Doppl-E Lab
+        Doppl-E is a CW Doppler radar system built from scratch by Jubal Clapp, a 3rd year Electrical Engineering student at Queen's University.
+        The system uses an HB100 microwave transceiver operating at 10.525 GHz to detect the velocity of a moving target in real time.
+        Signal Chain:
+        HB100 -> Analog PCB (2-stage IF amp + RC LPF) -> USB Audio ADC -> Python DSP pipeline -> Doppl-E Lab
+        Minimum detectable velocity: 1.14 m/s (4.1 km/h)
+        Maximum detectable velocity: 33.5 m/s (120 km/h)
+        Full documentation:
+        github.com/jubalclapp/Doppl-E""")
+
+            # - Tab 2: Setup -
+            setup = make_tab("  Setup  ")
+            add_text(setup, "tba")
+
+            # - Tab 3: How to use -
+            setup = make_tab("  How to use  ")
+            add_text(setup, "tba")
+
+            # - Tab 4: Troubleshooting -
+            setup = make_tab("  Setup  ")
+            add_text(setup, "tba")
+
+        # Close button
+        tk.Button(dialog, text="Close",
+                  font=("TkDefaultFont", 10),
+                  fg=TEXT_SECONDARY, bg=BG_CARD,
+                  relief=tk.FLAT, cursor="hand2",
+                  padx=20, pady=8,
+                  command=dialog.destroy).pack(pady=(0,15))
     def on_close(self):
         if self.is_capturing:
             confirm = messagebox.askyesno(
