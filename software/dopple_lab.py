@@ -4,6 +4,7 @@
 # Author: Jubal Clapp
 
 import tkinter as tk
+from os import name
 from tkinter import filedialog, messagebox, ttk
 import numpy as np
 import matplotlib.pyplot as plt
@@ -107,14 +108,23 @@ class DopplELab:
             audio_buffer.extend(indata[:, 0])
 
     def start_stream(self):
+        selected = self.device_var.get()
+        device_num = self.device_map.get(selected, device)
         try:
-            self.stream = sd.InputStream(
-                samplerate = sample_rate,
-                channels = 1,
-                device = device,
-                blocksize = chunk_size,
-                callback = self.audio_callback
-            )
+            try:
+                self.stream = sd.InputStream(
+                    samplerate = sample_rate,
+                    channels = 1,
+                    device = device_num,
+                    blocksize = chunk_size,
+                    callback = self.audio_callback)
+            except Exception:
+                self.stream = sd.InputStream(
+                    samplerate=sample_rate,
+                    channels=2,
+                    device=device_num,
+                    blocksize=chunk_size,
+                    callback=self.audio_callback)
             self.stream.start()
         except Exception as e:
             self.status.config(
@@ -127,6 +137,30 @@ class DopplELab:
         if hasattr(self, "stream"):
             self.stream.stop()
             self.stream.close()
+
+    def get_input_devices(self):
+        devices = sd.query_devices()
+        input_devices = []
+        for i, d in enumerate(devices):
+            if d['max_input_channels'] > 0:
+                input_devices.append((i, d['name']))
+        return input_devices
+
+    def refresh_devices(self):
+        devices = self.get_input_devices()
+        device_names = []
+        self.device_map = {}
+        for num, name in devices:
+            short_name = name[:35] + "..." if len(name) > 35 else name
+            device_names.append(short_name)
+            self.device_map[short_name] = num
+        self.device_dropdown['values'] = device_names
+        for name in device_names:
+            if "USB Audio" in name:
+                self.device_dropdown.set(name)
+                return
+        if device_names:
+            self.device_dropdown.set(device_names[0])
 
     def update_display(self):
         if not self.is_capturing:
@@ -199,11 +233,50 @@ class DopplELab:
         content = tk.Frame(self.root, bg=BG_DARK)
         content.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
 
-        # --- Left panel (velocity + control) ---
+        # - Left panel (velocity + control) -
         left_panel = tk.Frame(content, bg=BG_PANEL, width=300)
         left_panel.pack(side=tk.LEFT, fill=tk.Y, padx=(0, 15))
         left_panel.pack_propagate(False)
 
+        # - Device selector -
+        device_label = tk.Label(left_panel, text="AUDIO DEVICE",
+                                font=("TkDefaultFont", 9),
+                                fg=TEXT_SECONDARY, bg=BG_PANEL)
+        device_label.pack(pady=(20, 0))
+
+        self.device_var = tk.StringVar()
+        self.device_map = {}
+
+        devices = self.get_input_devices()
+        device_names = []
+        for num, name in devices:
+            short_name = name[:35] + "..." if len(name) > 35 else name
+            device_names.append(short_name)
+            self.device_map[short_name] = num
+
+        self.device_dropdown = ttk.Combobox(left_panel,
+                                            textvariable=self.device_var,
+                                            values=device_names,
+                                            state="readonly",
+                                            width=28)
+        self.device_dropdown.pack(padx=15, pady=(4, 0))
+
+        # Auto select USB Audio Device if present
+        for name in device_names:
+            if "USB Audio" in name:
+                self.device_dropdown.set(name)
+                break
+            else:
+                if device_names:
+                    self.device_dropdown.set(device_names[0])
+
+        # Refresh button
+        refresh_btn = tk.Button(left_panel, text="Refresh devices",
+                                font = ("TkDefaultFont", 8),
+                                fg=TEXT_SECONDARY, bg=BG_PANEL,
+                                relief=tk.FLAT, cursor="hand2",
+                                command=self.refresh_devices)
+        refresh_btn.pack(pady=(2, 10))
         # - Velocity display -
         vel_label = tk.Label(left_panel, text="VELOCITY",
                              font=("TkDefaultFont", 10),
@@ -375,7 +448,7 @@ class DopplELab:
         )
 
         if not save_path:
-            return # user cancelled file save
+            return # user canceled file save
 
         # --- Build report ---
         session_duration = int(time.time() - self.session_start)
@@ -472,7 +545,7 @@ class DopplELab:
 
         def add_text(frame, content):
             text = tk.Text(frame, bg=BG_PANEL, fg=TEXT_PRIMARY,
-                           font=("TkDefaultFont", 13),
+                           font=("TkDefaultFont", 15),
                            relief=tk.FLAT, wrap=tk.WORD,
                             padx=15, pady=10,
                             state=tk.NORMAL,
@@ -533,16 +606,16 @@ class DopplELab:
         setup = make_tab("  Troubleshooting  ")
         add_text(setup, """Troubleshooting
         'Audio error: check ADC connection'
-        -> Your USB ADC is not detected. Unplug and replug your ADC, then run check_audio devices.py to confirm device number. Update device number as neeeded in dopple_lab.py and rettry capture.
+        -> Your USB ADC is not detected. Unplug and replug your ADC, then run check_audio devices.py to confirm device number. Update device number as needed in dopple_lab.py and retry capture.
         
         No velocity readings during capture
         -> Confirm the HB100 is powered (USB power cable connected)
         -> Confirm TRS cable is in the pink mic jack, no the green headphone jack
         -> Attempt a capture moving your hand directly at the aperture at a fixed, moderate speed
-        -> If none of the former work, lower peak_threshold' in dopple_lab.py. This allows the pipeline to report a lower magnitude peak as a sucsessful capture
+        -> If none of the former work, lower peak_threshold' in dopple_lab.py. This allows the pipeline to report a lower magnitude peak as a successful capture
         
         FFT plot shows only low frequency noise
-        -> 60Hz power line interference may be present. The 80HZ HPF should attinuate this, confirm 'min-freq' = 80 in your parameters.
+        -> 60Hz power line interference may be present. The 80HZ HPF should attenuate this, confirm 'min-freq' = 80 in your parameters.
         
         Device number changed
         -> Run check_audio_devices.py and update 'device' in dopple_lab.py as needed""")
