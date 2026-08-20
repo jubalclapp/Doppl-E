@@ -433,7 +433,7 @@ class DopplELab:
     def show_info(self):
         dialog = tk.Toplevel(self.root)
         dialog.title("Doppl-E Lab - Guide")
-        dialog.geometry("500x400")
+        dialog.geometry("1000x800")
         dialog.configure(bg=BG_DARK)
         dialog.resizable(False, False)
         dialog.grab_set()
@@ -463,6 +463,7 @@ class DopplELab:
 
         notebook = ttk.Notebook(dialog, style="Dark.TNotebook")
         notebook.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
+        dialog.update()
 
         def make_tab(title):
             frame = tk.Frame(notebook, bg=BG_PANEL)
@@ -480,9 +481,9 @@ class DopplELab:
             text.config(state=tk.DISABLED)
             text.pack(fill=tk.BOTH, expand=True)
 
-            # - Tab 1: About -
-            about = make_tab("  About  ")
-            add_text(about, """Doppl-E Lab
+        # - Tab 1: About -
+        about = make_tab("  About  ")
+        add_text(about, """Doppl-E Lab
         Doppl-E is a CW Doppler radar system built from scratch by Jubal Clapp, a 3rd year Electrical Engineering student at Queen's University.
         The system uses an HB100 microwave transceiver operating at 10.525 GHz to detect the velocity of a moving target in real time.
         Signal Chain:
@@ -492,17 +493,59 @@ class DopplELab:
         Full documentation:
         github.com/jubalclapp/Doppl-E""")
 
-            # - Tab 2: Setup -
-            setup = make_tab("  Setup  ")
-            add_text(setup, "tba")
+        # - Tab 2: Setup -
+        setup = make_tab("  Setup  ")
+        add_text(setup, """Hardware setup guide
+        1. Connect the USB audio ADC adapter to your laptop
+        2. Connect the TRS cable from your analog PCB output (pin J4)
+        3. Connect the USB power cable to power the analog PCB & HB100
+        4. Confirm your ADC is recognized:
+           Run check_audio_devices.py (found in /tools) and note the device number for your ADC
+        5. Check device in dopple_lab, update if number has changed
+        6. Point the HB100 antenna face toward target (side with the two visible patch antennas)
+        7. Launch Doppl-E Lab and press Start Capture""")
 
-            # - Tab 3: How to use -
-            setup = make_tab("  How to use  ")
-            add_text(setup, "tba")
+        # - Tab 3: How to use -
+        setup = make_tab("  How to use  ")
+        add_text(setup, """Doppl-E Lab Users Guide
+        START CAPTURE
+        Press the green 'START CAPTURE' button to begin streaming. When a capture has started, the button will turn red and the status bar will confirm the stream is active.
+        
+        VELOCITY DISPLAY 
+        The largest number in the top left corner shows the radian velocity of an object in m/s. Underneath, mph and raw Doppler frequency in Hz can be found.
+        
+        FFT SPECTRUM
+        The plot shows the frequency content of the current 0.5 second audio window. A peak above the noise floor indicates a detected target. Peak position on the x-axis corresponds to target velocity.
+        
+        SESSION STATS
+        Duration, max, min, and average velocity update in real time during a capture session.
+        
+        STOP CAPTURE
+        Press the red 'STOP CAPTURE' button to end the session. The 'SAVE REPORT' button will appear.
+        
+        SAVE REPORT
+        Generates a zip file containing:
+         - Session summary (.txt)
+         - Velocity log (.csv)
+         - FFT snapshot (.png)""")
 
-            # - Tab 4: Troubleshooting -
-            setup = make_tab("  Setup  ")
-            add_text(setup, "tba")
+        # - Tab 4: Troubleshooting -
+        setup = make_tab("  Troubleshooting  ")
+        add_text(setup, """Troubleshooting
+        'Audio error: check ADC connection'
+        -> Your USB ADC is not detected. Unplug and replug your ADC, then run check_audio devices.py to confirm device number. Update device number as neeeded in dopple_lab.py and rettry capture.
+        
+        No velocity readings during capture
+        -> Confirm the HB100 is powered (USB power cable connected)
+        -> Confirm TRS cable is in the pink mic jack, no the green headphone jack
+        -> Attempt a capture moving your hand directly at the aperture at a fixed, moderate speed
+        -> If none of the former work, lower peak_threshold' in dopple_lab.py. This allows the pipeline to report a lower magnitude peak as a sucsessful capture
+        
+        FFT plot shows only low frequency noise
+        -> 60Hz power line interference may be present. The 80HZ HPF should attinuate this, confirm 'min-freq' = 80 in your parameters.
+        
+        Device number changed
+        -> Run check_audio_devices.py and update 'device' in dopple_lab.py as needed""")
 
         # Close button
         tk.Button(dialog, text="Close",
