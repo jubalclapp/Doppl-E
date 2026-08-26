@@ -27,6 +27,6 @@ Full design files and schematics are avalable in [/hardware](/hardware/)
 | --------- | :--: | :-: | :------: | :------: | :----------: | :-----------: | :--: |
 | PCB | 2-layer, 1.6mm FR4, HASL finish | 5 | N/A | PCBWay | $1.30 | $6.50 | [PCBWay](https://www.pcbway.com/) |
 
-*PCBWay requires a minimum of 5 boards*
+*PCBWay requires a minimum order of 5 boards*
 
 **Total project cost: ~$21.37** (excluding tools and development hardware)
