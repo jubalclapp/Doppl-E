@@ -6,8 +6,17 @@
 | RNMF14FTC100K | 100kΩ, 1%, 1/4W | 2 | R2, R4 | DigiKey | $0.10 | $0.20 |[DigiKey](https://www.digikey.com/en/products/detail/stackpole-electronics-inc/RNMF14FTC100K/2617278) |
 | B32529C1682J000 | 6.8nF, 5%, film | 1 | C1 | DigiKey | $0.33 | $0.33 | [DigiKey](https://www.digikey.com/en/products/detail/tdk/B32529C1682J000/592715) |
 | C320C104J5R5TA7301 | 100nF, ceramic | 2 | C2, C3 | DigiKey | $0.58 | $1.16 | [DigiKey](https://www.digikey.com/en/products/detail/kemet/C320C104J5R5TA7301/3726081) |
+
 ## HB100
-
+| Component | Spec | Qty | Location | Supplier | Price (unit) | Price (total) |Link |
+| --------- | :--: | :-: | :------: | :------: | :----------: | :-----------: | :--: |
+| HB100 | X-band Microwave Transceiver Module | 1 | External module | DigiKey | $12.00 | $12.00 | [DigiKey](https://www.digikey.com/en/products/detail/st-engineering-urban-solutions/HB100/24762149) |
 ## Cables and Adapters
+| Component | Spec | Qty | Location | Supplier | Price (unit) | Price (total) |Link |
+| --------- | :--: | :-: | :------: | :------: | :----------: | :-----------: | :--: |
+| UGREEN USB to Audio | USB AUdio ADC | 1 | External connecter | Amazon | $11.99 | $11.99$ | [Amazon](https://www.amazon.com/dp/B01N905VOY?amp=&amp=) |
+| Wire | 24 Guage copper wire | 1 | Connections | Amazon | $8.99 | $8.99 |[Amazon](https://www.amazon.com/WSICSE-Gauge-99-9-Copper-Spool/dp/B0DF7G4677/ref=sr_1_1_sspa?sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY) |
 
-## Fabrication
+| Component | Spec | Qty | Location | Supplier | Price (unit) | Price (total) |Link |
+| --------- | :--: | :-: | :------: | :------: | :----------: | :-----------: | :--: |
+| PCB | 2-layer, 1.6mm FR4, HASL finish | 5 | N/A | PCBWay | $1.30 | $6.50 | [PCBWay](https://www.pcbway.com/) |
