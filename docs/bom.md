@@ -1,3 +1,8 @@
+# Doppl-E - Bill of Materials
+
+All components were sourced in single quantaties for prototyping.
+Prices reflect unit cost at time of purchase in USD, prices may vary/
+Full design files and schematics are avalable in [/hardware](/hardware/)
 ## PCB Components
 | Component | Spec | Qty | Location | Supplier | Price (unit) | Price (total) |Link |
 | --------- | :--: | :-: | :------: | :------: | :----------: | :-----------: | :--: |
@@ -17,6 +22,10 @@
 | UGREEN USB to Audio | USB AUdio ADC | 1 | External connecter | Amazon | $11.99 | $11.99$ | [Amazon](https://www.amazon.com/dp/B01N905VOY?amp=&amp=) |
 | Wire | 24 Guage copper wire | 1 | Connections | Amazon | $8.99 | $8.99 |[Amazon](https://www.amazon.com/WSICSE-Gauge-99-9-Copper-Spool/dp/B0DF7G4677/ref=sr_1_1_sspa?sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY) |
 
+## Fabrication
 | Component | Spec | Qty | Location | Supplier | Price (unit) | Price (total) |Link |
 | --------- | :--: | :-: | :------: | :------: | :----------: | :-----------: | :--: |
 | PCB | 2-layer, 1.6mm FR4, HASL finish | 5 | N/A | PCBWay | $1.30 | $6.50 | [PCBWay](https://www.pcbway.com/) |
+*PCBWay requires a minimum of 5 boards*
+
+**Total project cost: ~$21.37** (excluding tools and development hardware)
