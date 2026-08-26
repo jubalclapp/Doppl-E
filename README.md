@@ -10,7 +10,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - HB100 microwave transceiver module
 - Two stage IF amplifier (MCP6002)
 - RC low-pass filter (2,340Hz cutoff)  
-- USB audio ADC (UGREEN)
+- USB audio ADC (Sabrent)
 ## Software
 - DSP pipeline: FFT-based Doppler processing
 - Pipeline verified end to end on 2000Hz test signal
@@ -18,6 +18,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - 80Hz high-pass filter for 60Hz power line interference rejection
 - Real-time streaming pipeline with live velocity output
 - Verified on hardware: hand movement and vehicle detection <br>
+- Doppl-E Lab: real time GUI with live FFT display, session stats, and report export
 ## Results
 ✅ Phase 2 MVP Complete - Doppler detection confirmed
 - Minimum detectable velocity: 1.14 m/s (limited by 80Hz HPF cutoff)
@@ -39,5 +40,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - First successful end-to-end Doppler detection confirmed (July 13, 2026)
 - Real-time streaming pipeline implemented and verified on hardware
 - Vehicle detection confirmed in parking lot test (August 2, 2026)
+- Doppl-E Lab GUI developed with real-time display and save report feature
+- Controlled vejicle calidatione xpiriment conducted (August 22, 2026)
 ## Author
 Jubal Clapp - 3rd Year Electrical Engineering @ Queen's Univerisity

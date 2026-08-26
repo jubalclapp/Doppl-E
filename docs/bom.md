@@ -19,8 +19,8 @@ Full design files and schematics are avalable in [/hardware](/hardware/)
 ## Cables and Adapters
 | Component | Spec | Qty | Location | Supplier | Price (unit) | Price (total) |Link |
 | --------- | :--: | :-: | :------: | :------: | :----------: | :-----------: | :--: |
-| UGREEN USB to Audio | USB AUdio ADC | 1 | External connecter | Amazon | $11.99 | $11.99$ | [Amazon](https://www.amazon.com/dp/B01N905VOY?amp=&amp=) |
-| Wire | 24 Guage copper wire | 1 | Connections | Amazon | $8.99 | $8.99 |[Amazon](https://www.amazon.com/WSICSE-Gauge-99-9-Copper-Spool/dp/B0DF7G4677/ref=sr_1_1_sspa?sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY) |
+| SABRENT USB to Audio | USB Audio ADC | 1 | External connecter | Amazon | $8.99 | $8.99 | [Amazon](https://www.amazon.com/dp/B01N905VOY?amp=&amp=) |
+| Wire | 24 Guage copper wire | 1 | Connections | Amazon | $8.99 | $8.99 |[Amazon](https://www.amazon.com/dp/B00IRVQ0F8) |
 
 ## Fabrication
 | Component | Spec | Qty | Location | Supplier | Price (unit) | Price (total) |Link |
@@ -29,4 +29,4 @@ Full design files and schematics are avalable in [/hardware](/hardware/)
 
 *PCBWay requires a minimum order of 5 boards*
 
-**Total project cost: ~$21.37** (excluding tools and development hardware)
+**Total project cost: ~$18.37** (excluding tools and development hardware)
