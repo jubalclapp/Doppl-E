@@ -241,5 +241,5 @@ Results were immediately promising. The FFT plot displayed little to no noise, a
     Antenna Test Lab. [Online]. Available: 
     https://antennatestlab.com/wp-content/uploads/2019/07/HB100-Spec-Sheet-Radar-Sensor-Application-Note-Data-Sheet.pdf<br>
 [4] K. Godiyal, “How Much Power does USB Port Output? (USB 1.0, 2.0, 3.0),” www.etechnophiles.com, Jan. 12, 2023. https://www.etechnophiles.com/usb-port-power-output/ (accessed July 18, 2026).
----
+***
 *Jubal Clapp | Electrical Engineering @ Queen's University | Summer 2026*
