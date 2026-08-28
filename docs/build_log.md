@@ -51,8 +51,8 @@ While it certainly wasn't easy, Doppl-E was an incredible first solo project. Th
 ### Software-Defined Radio
 Designing a Software-Defined Radio would be a simple follow up project compared to Doppl-E, however, it would certainly be rewarding in developing my knowledge in true RF communications. An SDR project would be reasonably cheap, especially with the tools I have purchased to design Doppl-E. I plan to research timelines, potentially designing the project in Winter 2026.
 ### Frequency Modulated Continuous Wave (FMCW) Radar
-The natural evolution of Doppl-E, a Frequency Modulated Continuous Wave (FMCW) Radar, contains far more sophisticated hardware. Unlike Doppl-E, a FMCW system reports distance, velocity, and can support direction finding, all with signifigantly higher accuracy. However, this system would be far more complex, expensive, and time-consuming. Doppl-E has developed the RF engineering basics to tackle the project. However, due to an extreme amount of work involved, the best timing for the project would be my Capstone project, a multidisciplinary project during my 4th year of studies.
+The natural evolution of Doppl-E, a Frequency Modulated Continuous Wave (FMCW) Radar, contains far more sophisticated hardware. Unlike Doppl-E, a FMCW system reports distance, velocity, and can support direction finding, all with signifigantly higher accuracy. However, this system would be far more complex, expensive, and time-consuming. Doppl-E has developed the RF engineering basics to tackle the project. However, due to an extreme amount of work involved, the best timing for the project would be my Capstone project, a multidisciplinary project during my 4th year of studies.<br>
 
-Doppl-E is the first chapter. There's a lot more to write.
+Doppl-E is the first chapter. There's a lot more to write.<br>
 ---
 *Jubal Clapp | Electrical Engineering @ Queen's University | Summer 2026*
