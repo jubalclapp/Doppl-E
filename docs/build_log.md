@@ -54,3 +54,5 @@ Designing a Software-Defined Radio would be a simple follow up project compared 
 The natural evolution of Doppl-E, a Frequency Modulated Continuous Wave (FMCW) Radar, contains far more sophisticated hardware. Unlike Doppl-E, a FMCW system reports distance, velocity, and can support direction finding, all with signifigantly higher accuracy. However, this system would be far more complex, expensive, and time-consuming. Doppl-E has developed the RF engineering basics to tackle the project. However, due to an extreme amount of work involved, the best timing for the project would be my Capstone project, a multidisciplinary project during my 4th year of studies.
 
 Doppl-E is the first chapter. There's a lot more to write.
+---
+*Jubal Clapp | Electrical Engineering @ Queen's University | Summer 2026*

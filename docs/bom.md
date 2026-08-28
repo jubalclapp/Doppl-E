@@ -30,3 +30,5 @@ Full design files and schematics are avalable in [/hardware](/hardware/)
 *PCBWay requires a minimum order of 5 boards*
 
 **Total project cost: ~$18.37** (excluding tools and development hardware)
+---
+*Jubal Clapp | Electrical Engineering @ Queen's University | Summer 2026*

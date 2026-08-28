@@ -19,3 +19,5 @@ The outcome demonstrated accuracy in the figures derived in Design Calculations,
 🚧 Coming soon! 🚧
 ## Future work
 🚧 Coming soon! 🚧
+---
+*Jubal Clapp | Electrical Engineering @ Queen's University | Summer 2026*
