@@ -75,16 +75,16 @@ Following the law of large numbers, small sample sizes can contain a higher conc
 ### Speedometer reference accuracy
 In the 2016 document, SAE J2976, The Society of Automotive Engineers recommended speedometer error to fall between 2-4%, as to not affect driver's safety. The vehicle I used for testing was an older model, whose speedometer had not been services in several years. It is entirely possible that the speedometer error in my vehicle exceeds 4%. This serves as likely the second highest contributor of error within the deployment, ideally I would've compared Doppl-E's results directly with a commercial radar gun.
 ### Antenna Alignment
-An additional contributor of error is the alignment of the antenna. As a Doppler radar system, the HB100 operates optimally when directly parallel with the direction of motion of the vehicle. Now due to safety concerns, Doppl-E was unable to be set in the direct path of motion. The antenna was aligned to 5-10 degrees, intersecting the road due to the line of sight. This fundamentally changes the doppler shift frequency equation from
+An additional contributor of error is the alignment of the antenna. As a Doppler radar system, the HB100 operates optimally when directly parallel with the direction of motion of the vehicle. Now due to safety concerns, Doppl-E was unable to be set in the direct path of motion. The antenna was aligned to 5-10 degrees, intersecting the road due to the line of sight. This fundamentally changes the doppler shift frequency equation from <br>
 $$ f_{int} = \frac{2v}{\lambda}$$
-into
+into <br>
 $$ f_{int} = \frac{2v}{\lambda} \cdot \cos(\theta)$$.
 Now at the worst case of 10 degrees, an error slightly smaller than 2% is introduced. This suggests the larger portions of error introduced to the experiment trace to speedometer inaccuracy and small sample size variance.
 ## Conclusions
 There were three initial goals for Doppl-E to reach, outlined in [Theoretical Predictions](#theoretical-predictions), and they follow:
 1. Successful object detection at a realistic standoff distance (>3m)
 2. Relatively accurate velocity estimation across several speeds, indicating a band of accurate estimation exists
-3. Error is measurable and explainable, reason behind discrepancies is understood to theoretically minimize error in the future
+3. Error is measurable and explainable, reason behind discrepancies is understood to theoretically minimize error in the future <br>
 The first goal Doppl-E met with ease. Vehicle detection was estimated around 40-50ft away from the antenna, so long distance capture was certainly successful.<br>
 The second goal could be reasonably described as met with hardware taken into context. An accuracy rating of 77.6% wouldn't be ideal for military or airline grade hardware, but with the HB100 chip being a 50x50mm microwave transceiver module purchasable for $12 USD, 77.6% accuracy at 50ft is certainly nothing to scoff at. The accuracy rating available does certainly demonstrate the antenna was operated correctly with properly functioning hardware and software, so I would argue goal 3 was met.<br>
 As for the third goal, measurable and explainable error. Error was successfully measured to be approx. 23.4% across tested speeds. As outlined in [Error Analysis](#error-analysis), the error can be fundamentally traced back to a poor sample size, inaccurate speedometer(which could have been fixed by using a commercial radar gun), and non-optimal antenna alignment due to safety conditions. The error has been successfully measured and traced back to three key sources, meaning the goal was met.<br>
