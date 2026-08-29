@@ -93,7 +93,7 @@ Though Doppl-E may not have the same range or accuracy as commercial or military
 A major improvement that could be made to Doppl-E would be to properly test a wide range of velocity captures with a GPS speed reference or a commercial radar gun. A combination of better velocity comparison and a larger sample set could provide a drastically improved second deployment for Doppl-E.<br>
 In the immediate future, I intend to explore Software Defined Radio in the form of a small-scale project. I believe this lower complexity follow-up project would allow me to deepen my RF knowledge before the true follow up project begins.
 As I touched on in [Build Log](/docs/build_log.md), I intend to pursue a further radar project in the near future. Doppl-E has helped me learn the fundamentals of radar design, as well as analog electronics design and digital signal processing. In a little over a year, I intend to begin pursuing a Frequency Modulated Continuous Wave radar, which would allow velocity and position capture at a greater accuracy than Doppl-E, as well as the potential to add direction finding. This project will be significantly greater in difficulty, scope, and duration.<br>
----
+***
 Doppl-E Mark 1: validated.
 ***
 *Jubal Clapp | Electrical Engineering @ Queen's University | Summer 2026*
