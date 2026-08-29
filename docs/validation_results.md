@@ -23,6 +23,7 @@ Referencing the following table from [Design Calculations](/docs/design_calculat
 | Slow moving car | 50 | 13.9 | 975 |
 | Car on Highway | 100 | 27.8 | 1951 |
 | Highway max speed | 105 | 29.2 | 2050 |
+
 Additionally touched on in [Design Calculations](design_calculations.md) Section 1.2, the manufacturer-stated range is ~15m for a human. For the Doppl-E live deployment, range should be expected at or slightly larger than manufacturer-stated range, as a vehicle has a larger RCS($\sigma$) than a human.<br>
 To successfully test a first live deployment, a success must be explicitly stated. In this instance, a complete success would include:
 1. Successful object detection at a realistic standoff distance (>3m)
@@ -38,6 +39,7 @@ To successfully test a first live deployment, a success must be explicitly state
 | 3 | 10.5 | 5.0 |
 | 4 | 8.97  | 10.3 |
 | 5 | 7.39  | 26.1 |
+
 *mean error of group: 15.0%*
 
 ### 20mph trial
@@ -50,6 +52,7 @@ To successfully test a first live deployment, a success must be explicitly state
 | 5 | 15.7  | 21.5 |
 | 6 | 9.4  | 53.0 |
 | 7 | 14.3  | 28.5 |
+
 *mean error of group: 28.5%*
 
 ### 30mph trial
@@ -60,6 +63,7 @@ To successfully test a first live deployment, a success must be explicitly state
 | 3 | 30.7 | 2.3 |
 | 4 | 33.6  | 12.0 |
 | 5 | 18.8  | 37.3 |
+
 *mean error of group: 24.7%*
 ***
 **Mean error of experiment: 23.4%**
@@ -89,6 +93,7 @@ Though Doppl-E may not have the same range or accuracy as commercial or military
 A major improvement that could be made to Doppl-E would be to properly test a wide range of velocity captures with a GPS speed reference or a commercial radar gun. A combination of better velocity comparison and a larger sample set could provide a drastically improved second deployment for Doppl-E.<br>
 In the immediate future, I intend to explore Software Defined Radio in the form of a small-scale project. I believe this lower complexity follow-up project would allow me to deepen my RF knowledge before the true follow up project begins.
 As I touched on in [Build Log](/docs/build_log.md), I intend to pursue a further radar project in the near future. Doppl-E has helped me learn the fundamentals of radar design, as well as analog electronics design and digital signal processing. In a little over a year, I intend to begin pursuing a Frequency Modulated Continuous Wave radar, which would allow velocity and position capture at a greater accuracy than Doppl-E, as well as the potential to add direction finding. This project will be significantly greater in difficulty, scope, and duration.<br>
+---
 Doppl-E Mark 1: validated.
 ***
 *Jubal Clapp | Electrical Engineering @ Queen's University | Summer 2026*
