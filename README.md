@@ -17,20 +17,24 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - Velocity estimation from FFT capture 
 - 80Hz high-pass filter for 60Hz power line interference rejection
 - Real-time streaming pipeline with live velocity output
-- Verified on hardware: hand movement and vehicle detection <br>
+- Verified on hardware: hand movement and vehicle detection 
 - Doppl-E Lab: real time GUI with live FFT display, session stats, and report export
 ## Results
-✅ Phase 2 MVP Complete - Doppler detection confirmed
+✅ Project complete: All goals met, full documentation available in [/docs](/docs/)
+
 - Minimum detectable velocity: 1.14 m/s (limited by 80Hz HPF cutoff)
 - Successfully detecting hand movement, walking speed, and fan rotation
 - Moving target produces clear FFT peaks in expected frequency range
 - Stationary target produces flat noise floor - motion detection confirmed
 - 60Hz power line interference identified and resolved via high-pass filter 
-- Full end-to-end pipeline confirmed: HB100 -> analog PCB -> ADC -> Python FFT
+- Full end-to-end pipeline confirmed: HB100 → analog PCB → ADC → Python FFT
 - Real-time vehicle detection confirmed: 3-7mph measured on slow moving car
+- Controlled vehicle validation experiment: 77.6% accuracy across 17 passes varying from 10-30mph, full analysis in [Validation & Results](/docs/validation_results.md)
 ## Design Calculations
-✅ Complete - Full derivations and applied calculations in [/docs](/docs/)
+✅ Complete: Full derivations and applied calculations in [/docs](/docs/design_calculations.md)
 ## Build Log
+✅ Complete: Full narrative in [Build Log](/docs/build_log.md). 
+
 - HB100 soldered and powered on, current draw confirmed at 32mA
 - Two stage IF amplifier breadboarded
 - Analog PCB fabricated and populated
@@ -41,6 +45,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - Real-time streaming pipeline implemented and verified on hardware
 - Vehicle detection confirmed in parking lot test (August 2, 2026)
 - Doppl-E Lab GUI developed with real-time display and save report feature
-- Controlled vejicle calidatione xpiriment conducted (August 22, 2026)
+- Controlled vehicle validation experiment conducted (August 22, 2026)
+- Validation results and full documentation completed (August 2026)
 ## Author
 Jubal Clapp - 3rd Year Electrical Engineering @ Queen's Univerisity

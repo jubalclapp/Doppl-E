@@ -27,8 +27,8 @@ Similarly to RCS, power received by the antenna aperture depends on several fact
 $$P_e = S_e A_w$$ (5)<br>
 Where:<br>
 $P_e$ - Received Power<br>
-$A_w$ - Antenna Aperture Coefficent<br>
-The Aperture coefficent can be further described using the Antenna Specific Loss<br>
+$A_w$ - Antenna Aperture Coefficient<br>
+The Aperture coefficient can be further described using the Antenna Specific Loss<br>
 $$A_w = A K_a$$ (6)<br>
 Where:<br>
 $A_w$ - Aperture area [m^2]<br>
@@ -87,7 +87,7 @@ $v$ - Propagation speed of the wave<br>
 $v_o$ - Speed of the wave receiver(with respect to the source)<br>
 $v_s$ - Speed of the wave source(with respect to the source)<br>
 Additionally, it should be noted that the plus-minuses in the Doppler Effect equation are reciprocal. Meaning if the numerator is $v+v_o$, then the denominator must be $v-v_s$, and vice versa.<br>
-Now for an electromagnetic wave with respect to an antenna aperture, we can fill in some of these values. Generally for precision, a radar is not moving, so $v_s$ can be assumed to be 0. Additionally, EM waves propogate at the speed of light, $c$. Therefore, the equation simplifies to <br>
+Now for an electromagnetic wave with respect to an antenna aperture, we can fill in some of these values. Generally for precision, a radar is not moving, so $v_s$ can be assumed to be 0. Additionally, EM waves propagate at the speed of light, $c$. Therefore, the equation simplifies to <br>
 $$f_s = f_o\cdot(\frac{c \pm v_o}{c})$$ (8)<br>
 The mixer inside of the HB100 operates by taking the received signal, $f_{rx}$, and subtracting it from the transmitted signal, $f_{tx}$. This operation allows the creation of the intermediate frequency, $f_{int}$<br>
 $$f_{int} = f_{rx} - f_{tx}$$ (9)<br>
@@ -185,12 +185,15 @@ There are only 2 notable active components across Doppl-E's hardware: <br>
 - HB100: 32mA at 5V, which was confirmed via bench testing
 - MCP6002: $\approx170\mu A$, according to the datasheet<br>
 <br>
-To calculate the total current consumption, we can add the current requirements from each component. It is vital to note that the 2 stage amplifier uses 2 MCP6002 op-amps. <br>
+To calculate the total current consumption, we can add the current requirements from each component. It is vital to note that the 2 stage amplifier uses 2 MCP6002 op-amps.
+
 $$i_{total} = i_{HB100} + i_{MCP6002}$$
 $$i_{total} = 32\text{mA} + 2 \times 0.17\text{mA}$$
 $$i_{total} = 32.34\text{mA}$$
+
 This value matches the current reading of my bench supply during the PCB bench testing prior to full assembly. This further indicates the PCB has been designed to spec.<br>
 Now that $i_{total}$ has been solved for, we can multiply by the voltage across the analog PCB and HB100 to find total power consumption<br>
+
 $$p_{total} = i_{total} \cdot V$$
 $$p_{total} = 0.03234 \cdot 5$$
 $$p_{total} = 0.1617W$$
