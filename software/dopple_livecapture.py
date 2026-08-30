@@ -1,5 +1,5 @@
-# Doppl-E | Real-Time Streaming Pipeline
-# Continously captures audio, runs FFT, and outputs a live velocity estimate in the terminal
+# Doppl-E | Real-Time Streaming Pipeline | Stage 4: Real-time streaming pipeline
+# Continuously captures audio, runs FFT, and outputs a live velocity estimate in the terminal
 # Verified on hardware 8/2/26: hand movement and vehicle detection(at 3-7mph)
 # Author: Jubal Clapp
 
@@ -13,11 +13,11 @@ import threading
 sample_rate = 44100     # Hz
 chunk_size = 4096       # samples/chunk      (~0.09 seconds)
 window_size = 22050     # samples/FFT window (~0.5 seconds)
-device = 1             # UGREEN USB Audio  Device
+device = 1              # USB Audio  Device
 lambda_ = 0.0285        # HB100 signal wavelength (m)
 min_freq = 80           # HPF cutoff (Hz)
 max_freq = 2340         # LPF cutoff (Hz)
-peak_threshold = 0.5   # minimum FFT magnitude to report a detection
+peak_threshold = 0.5    # minimum FFT magnitude to report a detection
 
 # -Shared buffer- #
 audio_buffer = deque(maxlen=window_size)

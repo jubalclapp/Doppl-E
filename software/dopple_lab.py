@@ -1,4 +1,4 @@
-## Doppl-E Lab | Radar Control Interface
+## Doppl-E Lab | Radar Control Interface | Stage 5: Full GUI application
 # Real-time Doppler velocity measurement and visualization
 # Verified on hardware: vehicle detection up to 20mph
 # Author: Jubal Clapp

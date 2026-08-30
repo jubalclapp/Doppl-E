@@ -19,6 +19,7 @@ After I finished my initial scouting into different RF systems, I landed on rada
 - Real-time streaming pipeline with live velocity output
 - Verified on hardware: hand movement and vehicle detection 
 - Doppl-E Lab: real time GUI with live FFT display, session stats, and report export
+- Development process preserved in [/software](/software/) showing iterative progression from a basic FFT test to the full GUI application
 ## Results
 ✅ Project complete: All goals met, full documentation available in [/docs](/docs/)
 

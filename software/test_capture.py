@@ -1,6 +1,6 @@
-# Doppl-E | Audio Input Test Pipeline
+# Doppl-E | Audio Input Test Pipeline | Stage 2: Audio Capture Pipeline Test
 # Audio Input Test Pipeline confirms laptop is capable of receiving input signals prior to hardware integration
-# Test signal: with human touch, speaker output, connected hardware, etc
+# Test signal: human touch, speaker output, connected hardware, etc
 # Author: Jubal Clapp
 import sounddevice as sd
 import numpy as np

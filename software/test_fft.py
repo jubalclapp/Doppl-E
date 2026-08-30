@@ -1,4 +1,4 @@
-# Doppl-E | Artificial Signal FFT Test Script
+# Doppl-E | Artificial Signal FFT Test Script | Stage 1: DSP Development
 # Test DSP pipeline on an artificial signal before direct hardware integration
 # Artificially generated signal is designed to be replaced by an HB100 IF signal
 # Author: Jubal Clapp

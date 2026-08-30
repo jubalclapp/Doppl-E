@@ -1,5 +1,5 @@
-# Doppl-E | Full DSP Pipeline
-# Captures audio from UGREEN ADC, runs FFT, identifies Doppler peak
+# Doppl-E | Full DSP Pipeline | Stage 3: Batch capture + FFT & velocity
+# Captures audio from USB ADC, runs FFT, identifies Doppler peak
 # converts to velocity
 # Author: Jubal Clapp
 import sounddevice as sd
@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 # - Parameters -
 duration = 10        # recording duration (seconds)
 sample_rate = 44100  # sample rate (Hz)
-device = 3           # UGREEN USB Audio Device
+device = 3           # USB Audio Device
 lambda_ = 0.0285     # HB100 wavelength (m)
 
 # - Audio Capture -
